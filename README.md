@@ -1,45 +1,47 @@
-# J-Space / Jacobian Lens Reproduction on GPT-OSS-20B
+# 在 GPT-OSS-20B 上复现 J-Space / Jacobian Lens
 
-This directory implements a practical reproduction path for the `ALGORITHM.md` description of **Jacobian Lens** and **J-space** on a HuggingFace decoder-only model such as GPT-OSS-20B.
+本目录实现了一个面向 HuggingFace decoder-only 模型（例如 GPT-OSS-20B）的 **Jacobian Lens** 与 **J-space** 实用复现路径，对应 `ALGORITHM.md` 中整理的算法描述。
 
-## What is implemented
+论文来源（Paper Origin）：https://transformer-circuits.pub/2026/workspace/index.html
 
-The paper algorithm defines an average Jacobian from an intermediate residual stream to the final residual/logit space. For a 20B model, this implementation uses the equivalent and tractable token-vector form:
+## 已实现内容
+
+论文算法定义了从中间 residual stream 到最终 residual/logit space 的平均 Jacobian。对 20B 级模型而言，本实现采用等价且更可操作的 token-vector 形式：
 
 ```text
 v_{layer, token} = E[ d logit_token(target_position) / d h_layer(source_position) ]
 ```
 
-That is the J-lens token direction needed for:
+这就是 J-lens 所需的 token 方向，可用于：
 
-- **J-lens readout**: score a layer activation against verbalizable token directions.
-- **J-space decomposition**: sparse nonnegative pursuit over token vectors.
-- **Steering**: add a concept vector to a residual stream position.
-- **Ablation**: remove the projection on a concept vector.
-- **Coordinate patching**: swap two concept coordinates in the local J-space span.
+- **J-lens readout**：将某层 activation 与可语言化 token 方向打分。
+- **J-space decomposition**：在 token vectors 上做稀疏非负分解。
+- **Steering**：向某个 residual stream 位置注入概念向量。
+- **Ablation**：移除某个概念方向上的投影。
+- **Coordinate patching**：在局部 J-space span 内交换两个概念坐标。
 
-The implementation intentionally avoids materializing full `d_model x d_model` Jacobians for every layer. It computes vector-Jacobian products directly through a layer-output hook, cutting the graph at the selected layer so early blocks do not need to keep gradients.
+本实现刻意避免为每层物化完整的 `d_model x d_model` Jacobian。它通过 layer-output hook 直接计算 vector-Jacobian product，并在选定层截断计算图，因此早期 block 不需要保留梯度。
 
-## Files
+## 文件说明
 
-- `ALGORITHM.md` — conceptual algorithm notes.
-- `jspace_gpt_oss.py` — runnable implementation and CLI.
-- `calibration_prompts.txt` — default calibration prompts.
-- `candidate_concepts.txt` — default verbalizable concept candidates.
-- `requirements.txt` — Python dependencies.
-- `smoke_math_test.py` — lightweight math-only checks for pursuit/projection/patching.
+- `ALGORITHM.md` — 概念算法说明。
+- `jspace_gpt_oss.py` — 可运行实现与 CLI。
+- `calibration_prompts.txt` — 默认校准 prompts。
+- `candidate_concepts.txt` — 默认可语言化候选概念。
+- `requirements.txt` — Python 依赖。
+- `smoke_math_test.py` — 只测试数学辅助例程的轻量 smoke test。
 
-## Installation
+## 安装
 
-Use a GPU environment suitable for the target model. For GPT-OSS-20B, prefer BF16 on a large GPU or multi-GPU device map. 4-bit loading is exposed for constrained runs, but exact gradient behavior depends on the local `bitsandbytes` / `transformers` stack.
+请使用适合目标模型的 GPU 环境。对 GPT-OSS-20B，建议在大显存 GPU 或多 GPU `device_map` 下使用 BF16。代码暴露了 4-bit 加载选项以支持资源受限的运行，但精确梯度行为取决于本地 `bitsandbytes` / `transformers` 栈。
 
 ```bash
 pip install -r requirements.txt
 ```
 
-If the model is already cached locally, add `--local-files-only` to commands.
+如果模型已经缓存在本地，可以在命令中加入 `--local-files-only`。
 
-## Inspect the model
+## 检查模型结构
 
 ```bash
 python jspace_gpt_oss.py inspect-model \
@@ -48,11 +50,11 @@ python jspace_gpt_oss.py inspect-model \
   --device-map auto
 ```
 
-This confirms the decoder block path and number of layers.
+该命令用于确认 decoder block 路径与层数。
 
-## Build a J-lens dictionary
+## 构建 J-lens dictionary
 
-Start small, then scale. A first useful run samples a few layers, one source/target pair per prompt, and the candidate concept list:
+建议先小规模跑通，再逐步放大。首次有意义的运行可以采样少量层、每个 prompt 一个 source/target pair，并使用默认候选概念列表：
 
 ```bash
 python jspace_gpt_oss.py build-dictionary \
@@ -69,12 +71,12 @@ python jspace_gpt_oss.py build-dictionary \
   --out gpt_oss_20b_jspace_dictionary.pt
 ```
 
-For fuller reproduction, increase:
+若要更完整复现，可逐步增加：
 
 - `--layers all`
-- prompt count
-- candidate concept count
-- `--max-pairs` with `--position-mode causal-window` or `all-same`
+- prompt 数量
+- candidate concept 数量
+- `--max-pairs`，并配合 `--position-mode causal-window` 或 `all-same`
 
 ## J-lens readout
 
@@ -88,7 +90,7 @@ python jspace_gpt_oss.py readout \
   --top-k 20
 ```
 
-The output is JSON with ranked token concepts and scores.
+输出为 JSON，包含按分数排序的 token concepts。
 
 ## J-space decomposition
 
@@ -102,11 +104,11 @@ python jspace_gpt_oss.py decompose \
   --k 25
 ```
 
-The result reports active token IDs/texts, nonnegative coefficients, residual norm, and explained fraction.
+结果会报告激活的 token IDs/texts、非负系数、残差范数与解释比例。
 
-## Causal interventions
+## 因果干预
 
-Steer toward a concept:
+向某个概念 steering：
 
 ```bash
 python jspace_gpt_oss.py intervene \
@@ -121,7 +123,7 @@ python jspace_gpt_oss.py intervene \
   --steps 32
 ```
 
-Ablate a concept:
+ablate 某个概念：
 
 ```bash
 python jspace_gpt_oss.py intervene \
@@ -135,7 +137,7 @@ python jspace_gpt_oss.py intervene \
   --steps 32
 ```
 
-Patch two concept coordinates:
+patch 两个概念坐标：
 
 ```bash
 python jspace_gpt_oss.py intervene \
@@ -150,29 +152,29 @@ python jspace_gpt_oss.py intervene \
   --steps 16
 ```
 
-## Reproduction protocol
+## 复现实验协议
 
-Recommended experimental table:
+建议记录下表：
 
-| Stage | Goal | Minimal setting | Scaled setting |
+| 阶段 | 目标 | 最小设置 | 放大设置 |
 |---|---|---:|---:|
-| Dictionary | Estimate J-lens token vectors | 6 layers × 8 prompts × 40 concepts | all layers × 100+ prompts × 1k+ concepts |
-| Readout | Verify verbalizable concepts | top-20 cosine scores | compare vs logit lens baseline |
-| Decomposition | Estimate J-space sparsity | `k=25` | sweep `k ∈ {5, 10, 25, 50}` |
-| Intervention | Causal effect | steer/ablate selected concepts | paired prompts + effect-size table |
+| Dictionary | 估计 J-lens token vectors | 6 层 × 8 prompts × 40 concepts | 全层 × 100+ prompts × 1k+ concepts |
+| Readout | 验证可语言化概念 | top-20 cosine scores | 与 logit lens baseline 对比 |
+| Decomposition | 估计 J-space 稀疏性 | `k=25` | sweep `k ∈ {5, 10, 25, 50}` |
+| Intervention | 验证因果效应 | steer/ablate selected concepts | paired prompts + effect-size table |
 
-Core metrics to log:
+核心指标：
 
-- readout top-k overlap with human-expected concepts;
-- decomposition explained fraction vs `k`;
-- steering delta in target concept logits;
-- ablation drop in target concept logits;
-- patching success rate on paired source/target prompts.
+- readout top-k 与人类预期概念的重合度；
+- decomposition explained fraction 随 `k` 的变化；
+- steering 对目标概念 logits 的增量；
+- ablation 对目标概念 logits 的下降；
+- patching 在成对 source/target prompts 上的成功率。
 
-## Notes and caveats
+## 注意事项
 
-- This implementation estimates **token-vector J-space** by VJP, not a stored full average Jacobian matrix.
-- Candidate vocabulary size controls runtime linearly. Use a focused concept list first, then expand.
-- Multi-token candidate strings are represented by their final token ID, which matches the token-level definition but should be documented in analysis.
-- Greedy intervention generation disables KV cache for correctness and simplicity; it is intentionally slow.
-- If `openai/gpt-oss-20b` is not the local model ID in your environment, pass the correct HuggingFace path with `--model-id`.
+- 本实现估计的是基于 VJP 的 **token-vector J-space**，不是存储完整平均 Jacobian 矩阵。
+- candidate vocabulary size 会线性影响运行时间；建议先使用聚焦的概念列表，再扩展。
+- 多 token candidate string 使用其最终 token ID 表示；这符合 token-level 定义，但分析时需要明确记录。
+- 为保证正确性和实现简洁，greedy intervention generation 会禁用 KV cache，因此速度较慢。
+- 如果本地环境中的模型 ID 不是 `openai/gpt-oss-20b`，请通过 `--model-id` 传入正确的 HuggingFace 路径。
