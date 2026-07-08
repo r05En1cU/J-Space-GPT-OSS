@@ -1,0 +1,6 @@
+torch
+transformers
+accelerate
+safetensors
+# Optional for --load-in-4bit:
+# bitsandbytes

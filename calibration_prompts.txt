@@ -1,0 +1,18 @@
+# Calibration prompts for estimating average J-lens token vectors.
+# Keep these domain-diverse; scale to 100+ prompts for the full reproduction.
+The capital of France is
+A spider builds a web because
+In quantum mechanics, a particle can
+The recipe starts by chopping onions and
+When a patient has a fever, the doctor
+A compiler transforms source code into
+The ocean tide rises when
+To solve the equation, first isolate
+A memory system stores information so that
+The detective found a clue near the
+Photosynthesis allows a plant to
+The theorem follows from the fact that
+During the experiment, the measured signal
+The musician tuned the instrument before
+A satellite orbits Earth because
+The legal contract states that the buyer
