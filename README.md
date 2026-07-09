@@ -6,21 +6,29 @@
 
 ## 已实现内容
 
-论文算法定义了从中间 residual stream 到最终 residual/logit space 的平均 Jacobian。对 20B 级模型而言，本实现采用等价且更可操作的 token-vector 形式：
+论文把每层的平均 Jacobian 定义为从中间层 residual stream `h_ℓ` 到**最终层 residual stream（final-norm 之前）**的一阶影响：
 
 ```text
-v_{layer, token} = E[ d logit_token(target_position) / d h_layer(source_position) ]
+J_ℓ = E_{t, t'≥t, prompt}[ ∂h_final,t' / ∂h_ℓ,t ]
 ```
 
-这就是 J-lens 所需的 token 方向，可用于：
+本实现取 token 向量为 `W_U·diag(g)·J_ℓ` 的行（`W_U` 为解嵌矩阵，`g` 为 final-norm 逐通道增益），即：
 
-- **J-lens readout**：将某层 activation 与可语言化 token 方向打分。
+```text
+v_{ℓ, token} = J_ℓ^T · diag(g) · W_U[token]   （rows of W_U·diag(g)·J_ℓ）
+```
+
+对 20B 级模型不物化完整的 `d_model × d_model` Jacobian，而是通过一次 VJP 得到：在第 `ℓ` 层注入 leaf、在最后一个 block 输出处捕获 pre-norm 的 `h_final`（仍与 leaf 相连），对标量 `W_U[token] · (g ⊙ h_final)` 反传即得该 token 的向量。`J_ℓ` 严格到 **pre-norm** 残差；final-norm 的逐通道增益 `g` 折入有效解嵌（真机校验表明不折 g 会使 readout 排序系统性偏离模型真实 logit，详见 `ALGORITHM.md` §6）。
+
+这些 token 方向可用于：
+
+- **J-lens readout**：用点积 `⟨v_t, h_ℓ⟩` 对某层 activation 打分排序（论文口径）。
 - **J-space decomposition**：在 token vectors 上做稀疏非负分解。
 - **Steering**：向某个 residual stream 位置注入概念向量。
 - **Ablation**：移除某个概念方向上的投影。
 - **Coordinate patching**：在局部 J-space span 内交换两个概念坐标。
 
-本实现刻意避免为每层物化完整的 `d_model x d_model` Jacobian。它通过 layer-output hook 直接计算 vector-Jacobian product，并在选定层截断计算图，因此早期 block 不需要保留梯度。
+本实现刻意避免为每层物化完整的 `d_model × d_model` Jacobian。它通过 layer-output hook 直接计算 vector-Jacobian product，并在选定层截断计算图，因此早期 block 不需要保留梯度。
 
 ## 文件说明
 
@@ -90,7 +98,7 @@ python jspace_gpt_oss.py readout \
   --top-k 20
 ```
 
-输出为 JSON，包含按分数排序的 token concepts。
+输出为 JSON，包含按分数排序的 token concepts。默认使用论文口径的原始点积 `⟨v_t, h_ℓ⟩` 打分；如需改用余弦相似度，加 `--cosine`。
 
 ## J-space decomposition
 
@@ -159,7 +167,7 @@ python jspace_gpt_oss.py intervene \
 | 阶段 | 目标 | 最小设置 | 放大设置 |
 |---|---|---:|---:|
 | Dictionary | 估计 J-lens token vectors | 6 层 × 8 prompts × 40 concepts | 全层 × 100+ prompts × 1k+ concepts |
-| Readout | 验证可语言化概念 | top-20 cosine scores | 与 logit lens baseline 对比 |
+| Readout | 验证可语言化概念 | top-20 点积分数 | 与 logit lens baseline 对比 |
 | Decomposition | 估计 J-space 稀疏性 | `k=25` | sweep `k ∈ {5, 10, 25, 50}` |
 | Intervention | 验证因果效应 | steer/ablate selected concepts | paired prompts + effect-size table |
 
@@ -173,7 +181,7 @@ python jspace_gpt_oss.py intervene \
 
 ## 注意事项
 
-- 本实现估计的是基于 VJP 的 **token-vector J-space**，不是存储完整平均 Jacobian 矩阵。
+- 本实现估计的是基于 VJP 的 **token-vector J-space**（严格等于 `W_U J_ℓ` 的行），不是存储完整平均 Jacobian 矩阵。
 - candidate vocabulary size 会线性影响运行时间；建议先使用聚焦的概念列表，再扩展。
 - 多 token candidate string 使用其最终 token ID 表示；这符合 token-level 定义，但分析时需要明确记录。
 - 为保证正确性和实现简洁，greedy intervention generation 会禁用 KV cache，因此速度较慢。

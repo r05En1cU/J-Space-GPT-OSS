@@ -1,0 +1,17 @@
+# 模型权重（12.8GB，绝不提交）
+gpt-oss-20b/
+
+# 生成产物
+*.pt
+*.json
+!package.json
+readout_*.json
+decompose_*.json
+steer_*.json
+
+# 论文抓取缓存
+_paper_fetch/
+
+# Python 缓存
+__pycache__/
+*.pyc

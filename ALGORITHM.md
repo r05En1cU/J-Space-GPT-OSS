@@ -93,7 +93,7 @@ Jacobian Lens 想回答的问题不是：
 - `ℓ` 是源层。
 - `t` 是源 token 位置。
 - `t' >= t` 是当前或未来 token 位置。
-- `h_{L,t'}` 是最终层 residual stream。
+- `h_{L,t'}` 是最终层 residual stream，**严格指最后一个 decoder block 的输出（final-norm 之前）**；final-norm 不包含在 `J_ℓ` 内，只保留在读出阶段。
 
 论文对大量 prompt、source position 和 target position 求平均，得到每层一个平均 Jacobian：
 
@@ -133,6 +133,8 @@ top_tokens = top_k(W_U · norm(J_ℓ h_{ℓ,t}))
 ```
 
 这些 top tokens 就是该 activation 中最容易被模型 verbalize 的概念。
+
+> 实现说明：论文指出 per-token 的读出探针就是点积 `⟨v_t, h_ℓ⟩`，它「up to a data-dependent normalization factor」等于 pre-softmax logit（该因子对所有 token 相同、不改变排序）。因此本仓库的 `readout` 默认直接用**原始点积** `⟨v_t, h_ℓ⟩` 排序，`--cosine` 为可选。
 
 ---
 
@@ -174,11 +176,15 @@ logits_ℓ = W_U · norm(J_ℓ h_ℓ)
 logits = W_U · norm(J_ℓ h)
 ```
 
-忽略 norm 的局部复杂性，可以把每个 token 的读出方向理解为：
+每个 token 的 J-lens 向量取为 `W_U·diag(g)·J_ℓ` 的对应行，其中 `g` 是 final-norm（RMSNorm）的逐通道可学习增益：
 
 ```text
-v_{ℓ, token} ≈ J_ℓ^T W_U[token]^T
+v_{ℓ, token} = J_ℓ^T diag(g) W_U[token]^T   （rows of W_U·diag(g)·J_ℓ）
 ```
+
+本仓库即按此实现：对 pre-norm 的 `h_final` 上的标量 `W_U[token] · (g ⊙ h_final)` 做 VJP 反传到第 `ℓ` 层，跨上下文求平均得到 `v_{ℓ, token}`。
+
+> **为什么折入 `g`**（2026-07-09 真机校验后定案）：论文说读出探针 `⟨v_t,h_ℓ⟩`「up to a data-dependent normalization factor」等于 pre-softmax logit——该因子指 RMSNorm 的 `1/rms`（标量、每位置相同、不改排序）。但 `g` 是**逐通道 `diag(g)` 而非标量**；若不折入，`⟨v_t,h_ℓ⟩` 与真 logit 相差一个 `diag(g)`，会改变 token 间排序。gpt-oss-20b 上实测：raw（不折 g）vs 折 g 的 readout 排序 Spearman 仅 0.705、top-10 只重合 5/10，raw 口径明显偏离模型真实 logit。故把 `diag(g)` 折入有效解嵌 `W_U_eff = W_U·diag(g)`（与 logit-lens 折 LN 增益的标准做法一致），`J_ℓ` 仍严格到 pre-norm 残差不变。
 
 直观上：
 
