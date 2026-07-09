@@ -35,12 +35,14 @@ coordinate patching，而无需保存完整平均 Jacobian 矩阵。
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import sys
+from contextlib import contextmanager
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Tuple
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Mapping, MutableMapping, Optional, Sequence, Tuple
 
 import torch
 import torch.nn.functional as F
@@ -57,6 +59,21 @@ except ImportError as exc:  # pragma: no cover - 依赖缺失保护
 DEFAULT_MODEL_ID = "openai/gpt-oss-20b"
 FORMAT_VERSION = 1
 EPS = 1e-8
+BF16_REL_EPS = 2.0 ** -8
+# Primary readout-full regression tolerance: 0.125 = 32 bf16 relative eps.
+# This is below the loose sqrt(d_model) accumulation envelope for GPT-OSS-20B
+# (2^-8 * sqrt(2880) ~= 0.21), but far below scale/offset/g/transpose bugs.
+READOUT_FULL_RELERR_THRESHOLD = 0.125
+READOUT_FULL_SWAP_ULP_FACTOR = 3.0
+READOUT_FULL_TOPK_GATE = 10
+
+
+class RegressionGateError(RuntimeError):
+    """Raised when readout-full dictionary regression fails, carrying the gate result."""
+
+    def __init__(self, message: str, result: Mapping[str, Any]):
+        super().__init__(message)
+        self.result = dict(result)
 
 
 DEFAULT_PROMPTS = [
@@ -302,6 +319,48 @@ def load_lines(path: Optional[str], defaults: Sequence[str]) -> List[str]:
         if text.strip() and not text.lstrip().startswith("#"):
             lines.append(text)
     return lines
+
+
+def calibration_prompts_sha256(prompts: Sequence[str]) -> str:
+    """Stable hash for the exact calibration prompt list used by J-lens averaging."""
+    blob = json.dumps(list(prompts), ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(blob).hexdigest()
+
+
+def calibration_prompts_metadata(prompts: Sequence[str]) -> Dict[str, Any]:
+    prompt_list = [str(p) for p in prompts]
+    return {
+        "prompts": prompt_list,
+        "prompts_sha256": calibration_prompts_sha256(prompt_list),
+        "num_prompts": len(prompt_list),
+    }
+
+
+def assert_same_calibration_prompts(dictionary_payload: Mapping[str, Any], prompts: Sequence[str]) -> Dict[str, Any]:
+    """Require readout-full verification to use the exact dictionary calibration prompt set."""
+    meta = dictionary_payload.get("calibration_prompts")
+    if not isinstance(meta, Mapping) or "prompts_sha256" not in meta or "prompts" not in meta:
+        raise ValueError(
+            "该字典未记录 calibration 集,无法保证门有效,请用新代码重建字典。"
+        )
+    current = calibration_prompts_metadata(prompts)
+    dict_hash = str(meta["prompts_sha256"])
+    current_hash = str(current["prompts_sha256"])
+    dict_count = int(meta.get("num_prompts", len(meta.get("prompts", []))))
+    current_count = int(current["num_prompts"])
+    if dict_hash != current_hash:
+        raise ValueError(
+            "calibration prompt 集不一致,拒绝对拍两个不同平均算子: "
+            f"dictionary_sha256={dict_hash} dictionary_count={dict_count}; "
+            f"current_sha256={current_hash} current_count={current_count}。"
+        )
+    if dict_count != current_count:
+        raise ValueError(
+            "calibration prompt 条数不一致,拒绝对拍两个不同平均算子: "
+            f"dictionary_sha256={dict_hash} dictionary_count={dict_count}; "
+            f"current_sha256={current_hash} current_count={current_count}。"
+        )
+    return current
 
 
 def resolve_candidate_token_ids(tokenizer: Any, candidate_texts: Sequence[str]) -> Tuple[List[int], Dict[int, List[str]]]:
@@ -685,6 +744,541 @@ def score_activation(
     return rows
 
 
+def rankdata_average(values: Tensor) -> Tensor:
+    """Tie-aware 1-based average ranks, matching scipy.stats.rankdata(method='average')."""
+    x = values.detach().float().cpu().flatten()
+    n = int(x.numel())
+    if n == 0:
+        return torch.empty(0, dtype=torch.float32)
+    order = torch.argsort(x, stable=True)
+    ranks = torch.empty(n, dtype=torch.float32)
+    i = 0
+    while i < n:
+        j = i + 1
+        while j < n and bool(x[order[j]] == x[order[i]]):
+            j += 1
+        avg_rank = 0.5 * (i + 1 + j)
+        ranks[order[i:j]] = float(avg_rank)
+        i = j
+    return ranks
+
+
+def spearman_corr(a: Tensor, b: Tensor) -> float:
+    """Dependency-free Spearman rho for regression gates."""
+    if int(a.numel()) != int(b.numel()):
+        raise ValueError(f"Spearman length mismatch: {a.numel()} vs {b.numel()}")
+    if int(a.numel()) < 2:
+        return float("nan")
+    ra = rankdata_average(a)
+    rb = rankdata_average(b)
+    ra = ra - ra.mean()
+    rb = rb - rb.mean()
+    denom = torch.linalg.norm(ra) * torch.linalg.norm(rb)
+    if float(denom.item()) <= EPS:
+        return float("nan")
+    return float(((ra * rb).sum() / denom).item())
+
+
+def resolve_single_token_id(tokenizer: Any, token: Optional[str], token_id: Optional[int]) -> int:
+    """Resolve a user-facing token string/id to one token id, using existing GPT-style spacing."""
+    if token_id is not None:
+        return int(token_id)
+    if token is None:
+        raise ValueError("Provide token or token_id")
+    text = token if token.startswith(" ") else " " + token
+    ids = tokenizer.encode(text, add_special_tokens=False)
+    if not ids:
+        raise ValueError(f"Could not tokenize {token!r}")
+    return int(ids[-1])
+
+
+def resolve_tracked_token_ids(
+    tokenizer: Any,
+    track_tokens: Optional[Sequence[str]],
+    track_token_ids: Optional[Sequence[int]],
+) -> List[int]:
+    seen = set()
+    resolved: List[int] = []
+    for token_id in track_token_ids or []:
+        tid = int(token_id)
+        if tid not in seen:
+            seen.add(tid)
+            resolved.append(tid)
+    for token in track_tokens or []:
+        tid = resolve_single_token_id(tokenizer, token, None)
+        if tid not in seen:
+            seen.add(tid)
+            resolved.append(tid)
+    return resolved
+
+
+def rows_from_full_scores(
+    scores: Tensor,
+    tokenizer: Any,
+    top_k: int,
+    token_to_texts: Optional[Mapping[int, Sequence[str]]] = None,
+) -> List[Dict[str, Any]]:
+    """Format full-vocabulary top-k rows; ranks are true full-vocab ranks."""
+    scores_cpu = scores.detach().float().cpu().flatten()
+    k = min(int(top_k), int(scores_cpu.numel()))
+    values, token_ids = torch.topk(scores_cpu, k=k)
+    return [
+        {
+            "rank": rank,
+            "token_id": int(token_id),
+            "text": token_label(tokenizer, int(token_id), token_to_texts),
+            "score": float(value),
+        }
+        for rank, (value, token_id) in enumerate(zip(values.tolist(), token_ids.tolist()), start=1)
+    ]
+
+
+def tracked_rows_from_scores(
+    scores: Tensor,
+    tokenizer: Any,
+    token_ids: Sequence[int],
+    token_to_texts: Optional[Mapping[int, Sequence[str]]] = None,
+    prefix: str = "",
+) -> List[Dict[str, Any]]:
+    """Return exact full-vocab rank/score for selected token ids."""
+    scores_cpu = scores.detach().float().cpu().flatten()
+    rows: List[Dict[str, Any]] = []
+    for token_id in token_ids:
+        tid = int(token_id)
+        if tid < 0 or tid >= int(scores_cpu.numel()):
+            raise IndexError(f"token_id={tid} out of range for vocab size {scores_cpu.numel()}")
+        score = float(scores_cpu[tid].item())
+        rank = int((scores_cpu > scores_cpu[tid]).sum().item()) + 1
+        key = f"{prefix}_" if prefix else ""
+        rows.append(
+            {
+                "token_id": tid,
+                "text": token_label(tokenizer, tid, token_to_texts),
+                f"{key}rank": rank,
+                f"{key}score": score,
+            }
+        )
+    return rows
+
+
+def random_token_sanity_from_scores(
+    scores: Tensor,
+    tokenizer: Any,
+    exclude_token_ids: Sequence[int],
+    n_random: int = 200,
+    seed: int = 0,
+    top_k: int = 20,
+) -> Dict[str, Any]:
+    """Report deterministic random-token score sanity for full-vocab readout verification."""
+    scores_cpu = scores.detach().float().cpu().flatten()
+    vocab_size = int(scores_cpu.numel())
+    excluded = {int(t) for t in exclude_token_ids if 0 <= int(t) < vocab_size}
+    generator = torch.Generator(device="cpu")
+    generator.manual_seed(int(seed))
+    selected: List[int] = []
+    # Oversample deterministically, filtering out dictionary candidates; fall back to a full scan if needed.
+    for tid in torch.randperm(vocab_size, generator=generator).tolist():
+        tid = int(tid)
+        if tid not in excluded:
+            selected.append(tid)
+            if len(selected) >= int(n_random):
+                break
+    if not selected:
+        return {"seed": int(seed), "n_random": 0, "note": "no non-dictionary token ids available"}
+    selected_tensor = torch.tensor(selected, dtype=torch.long)
+    selected_scores = scores_cpu[selected_tensor]
+    selected_order = torch.argsort(selected_scores, descending=True).tolist()
+    top_rows = []
+    for rank, local_idx in enumerate(selected_order[: min(int(top_k), len(selected))], start=1):
+        tid = int(selected[local_idx])
+        score = float(scores_cpu[tid].item())
+        full_rank = int((scores_cpu > scores_cpu[tid]).sum().item()) + 1
+        top_rows.append(
+            {
+                "rank_within_random_slice": rank,
+                "full_vocab_rank": full_rank,
+                "token_id": tid,
+                "text": token_label(tokenizer, tid),
+                "score": score,
+            }
+        )
+    return {
+        "seed": int(seed),
+        "n_random": len(selected),
+        "excluded_dictionary_tokens": len(excluded),
+        "score_min": float(selected_scores.min().item()),
+        "score_mean": float(selected_scores.mean().item()),
+        "score_max": float(selected_scores.max().item()),
+        "top_random_slice": top_rows,
+    }
+
+
+def score_full_vocab_from_vector(
+    model: Any,
+    readout_vector: Tensor,
+    cosine: bool = False,
+    chunk_size: int = 8192,
+) -> Tensor:
+    """Compute W_U @ readout_vector for the whole vocab without materializing extra copies.
+
+    For the default dot-product readout this is the paper口径:
+        scores = W_U @ (diag(g) · J_ℓ · h_ℓ)
+    cosine=True is a diagnostic post-J-space cosine over W_U rows and the post-J vector;
+    it is not used by the mandatory dictionary regression gate.
+    """
+    output_embeddings = model.get_output_embeddings()
+    if output_embeddings is None:
+        raise RuntimeError("model.get_output_embeddings() returned None; cannot score full vocab.")
+    W_U = output_embeddings.weight.detach()
+    vocab = int(W_U.shape[0])
+    vec_cpu = readout_vector.detach().float().cpu().flatten()
+    scores: List[Tensor] = []
+    for start in range(0, vocab, int(chunk_size)):
+        end = min(vocab, start + int(chunk_size))
+        W_chunk = W_U[start:end].to(dtype=torch.float32)
+        vec = vec_cpu.to(device=W_chunk.device, dtype=torch.float32)
+        if cosine:
+            chunk_scores = F.normalize(W_chunk, dim=1) @ F.normalize(vec, dim=0)
+        else:
+            chunk_scores = W_chunk @ vec
+        scores.append(chunk_scores.detach().float().cpu())
+    return torch.cat(scores, dim=0)
+
+
+def apply_final_norm_gain_to_vector(vector: Tensor, g_weight: Optional[Tensor]) -> Tensor:
+    """Apply the fixed 2026-07-09 diag(g) readout convention to one d_model vector."""
+    out = vector.detach().float().cpu().flatten()
+    if g_weight is None:
+        return out
+    g = g_weight.detach().float().cpu().flatten()
+    if tuple(g.shape) != tuple(out.shape):
+        raise ValueError(f"g/readout vector shape mismatch: g{tuple(g.shape)} vs vector{tuple(out.shape)}")
+    return g * out
+
+
+def patch_transformers_moe_grouped_mm_for_double_backward() -> Optional[Tuple[Any, Any]]:
+    """Temporarily patch Transformers MoE grouped-mm for readout-full double-VJP JVP.
+
+    On the current A100/torch stack, transformers.integrations.moe falls back to a
+    custom autograd op whose backward uses torch.mm(..., out=...). That supports
+    ordinary VJP (used by build-dictionary) but breaks the required double-backward
+    JVP because out= kernels are not differentiable. For readout-full JVP only,
+    replace the grouped-mm dispatcher with an equivalent Python matmul loop. The
+    returned patch state must be passed to unpatch_transformers_moe_grouped_mm_for_double_backward,
+    or use patched_transformers_moe_grouped_mm_for_double_backward() as a context manager.
+    """
+    try:
+        import transformers.integrations.moe as moe
+    except Exception as exc:  # pragma: no cover - optional Transformers internals
+        eprint(f"[j-lens] MoE grouped-mm patch skipped: {exc}")
+        return None
+
+    current = getattr(moe, "_grouped_mm", None)
+    if getattr(current, "_jspace_higher_order_patch", False):
+        original = getattr(current, "_jspace_original_grouped_mm", None)
+        if original is None:
+            raise RuntimeError("MoE grouped-mm is patched but original dispatcher was not recorded.")
+        return (moe, original)
+
+    original = current
+
+    def _grouped_mm_higher_order(input: Tensor, weight: Tensor, offs: Tensor) -> Tensor:
+        chunks: List[Tensor] = []
+        start = 0
+        # offsets are routing metadata, not differentiable; the matmuls remain
+        # differentiable w.r.t. input, which is all JVP needs because model
+        # parameters are frozen in load_model_and_tokenizer().
+        for i, end in enumerate(offs.detach().cpu().tolist()):
+            end = int(end)
+            if start < end:
+                chunks.append(input[start:end] @ weight[int(i)])
+            start = end
+        if start < int(input.shape[0]):
+            chunks.append(input.new_zeros((int(input.shape[0]) - start, int(weight.shape[-1]))))
+        if not chunks:
+            return input.new_zeros((int(input.shape[0]), int(weight.shape[-1])))
+        return torch.cat(chunks, dim=0)
+
+    setattr(_grouped_mm_higher_order, "_jspace_higher_order_patch", True)
+    setattr(_grouped_mm_higher_order, "_jspace_original_grouped_mm", original)
+    moe._grouped_mm = _grouped_mm_higher_order
+    eprint("[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP")
+    return (moe, original)
+
+
+def unpatch_transformers_moe_grouped_mm_for_double_backward(patch_state: Optional[Tuple[Any, Any]]) -> bool:
+    """Restore transformers.integrations.moe._grouped_mm after a scoped readout-full JVP."""
+    if patch_state is None:
+        return False
+    moe, original = patch_state
+    current = getattr(moe, "_grouped_mm", None)
+    if getattr(current, "_jspace_higher_order_patch", False):
+        moe._grouped_mm = original
+        eprint("[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP")
+        return True
+    eprint("[j-lens] MoE grouped-mm patch not restored because dispatcher changed during JVP")
+    return False
+
+
+@contextmanager
+def patched_transformers_moe_grouped_mm_for_double_backward() -> Iterator[bool]:
+    """Scope the higher-order MoE patch to the enclosed readout-full JVP calculation."""
+    patch_state = patch_transformers_moe_grouped_mm_for_double_backward()
+    try:
+        yield patch_state is not None
+    finally:
+        unpatch_transformers_moe_grouped_mm_for_double_backward(patch_state)
+
+
+def estimate_average_jvp_for_layer(
+    model: Any,
+    tokenizer: Any,
+    blocks: Sequence[torch.nn.Module],
+    prompts: Sequence[str],
+    layer_idx: int,
+    tangent: Tensor,
+    max_length: int,
+    max_pairs: int,
+    position_mode: str,
+    jvp_dtype: str = "auto",
+) -> Tuple[Tensor, int]:
+    """Estimate mean_q[J_q · tangent] with the plan's double-VJP JVP trick.
+
+    J_q maps the layer-ℓ residual stream leaf at source_pos to the final pre-norm
+    residual stream at target_pos. The query tangent is the detached raw h_ℓ from
+    capture_layer_activation, injected at each calibration source_pos. This exactly
+    implements the approved average-Jacobian口径:
+        mean_q[J_q · h_ℓ(query)]
+    before diag(g) is applied in the readout vector.
+
+    The Transformers MoE grouped-mm double-backward patch is scoped to this JVP
+    calculation and restored before the function returns or raises.
+    """
+    if not prompts:
+        raise ValueError("No calibration prompts provided for readout-full JVP.")
+    device = infer_input_device(model)
+    tangent_cpu = tangent.detach().float().cpu().flatten()
+    jvp_torch_dtype = parse_dtype(jvp_dtype)
+    summed: Optional[Tensor] = None
+    count = 0
+
+    with patched_transformers_moe_grouped_mm_for_double_backward():
+        for prompt_idx, prompt in enumerate(prompts):
+            batch = encode_prompt(tokenizer, prompt, max_length, device)
+            seq_len = int(batch["input_ids"].shape[1])
+            pairs = make_position_pairs(seq_len, position_mode, max_pairs)
+            for source_pos, target_pos in pairs:
+                outputs, leaf, h_final = forward_with_layer_leaf(model, blocks, layer_idx, batch)
+                source_pos = normalize_position(source_pos, leaf.shape[1])
+                target_pos = normalize_position(target_pos, h_final.shape[1])
+                if int(leaf.shape[-1]) != int(tangent_cpu.numel()):
+                    raise ValueError(
+                        f"tangent dimension mismatch: leaf d={leaf.shape[-1]} vs tangent d={tangent_cpu.numel()}"
+                    )
+
+                # Double-backward JVP. First compute J^T u as a function of dummy u;
+                # then differentiate that linear form w.r.t. u with grad_outputs=v.
+                # This keeps the Jacobian direction as J·v (not J^T·v), matching PLAN_readout_full.md.
+                y = h_final[0, target_pos]
+                if jvp_torch_dtype is not None:
+                    # Diagnostic dtype override only for y/u/tangent in the
+                    # double-backward algebra. It does NOT lift model weights or
+                    # matmul kernels, so it is not a valid high-precision reference
+                    # for bf16/MXFP4 rounding questions by itself.
+                    y = y.to(dtype=jvp_torch_dtype)
+                u = torch.zeros_like(y, requires_grad=True)
+                (Jt_u,) = torch.autograd.grad(
+                    y,
+                    leaf,
+                    grad_outputs=u,
+                    retain_graph=True,
+                    create_graph=True,
+                    allow_unused=False,
+                )
+                Jt_u_for_jvp = Jt_u.to(dtype=jvp_torch_dtype) if jvp_torch_dtype is not None else Jt_u
+                v_at_source = torch.zeros_like(Jt_u_for_jvp)
+                v_at_source[0, source_pos] = tangent_cpu.to(
+                    device=Jt_u_for_jvp.device, dtype=Jt_u_for_jvp.dtype
+                )
+                (Jv,) = torch.autograd.grad(
+                    Jt_u_for_jvp,
+                    u,
+                    grad_outputs=v_at_source,
+                    retain_graph=False,
+                    create_graph=False,
+                    allow_unused=False,
+                )
+                vec = Jv.detach().float().cpu().flatten()
+                if summed is None:
+                    summed = torch.zeros_like(vec)
+                summed.add_(vec)
+                count += 1
+                del outputs, leaf, h_final, y, u, Jt_u, Jt_u_for_jvp, v_at_source, Jv
+            eprint(
+                f"readout-full layer={layer_idx} prompt={prompt_idx + 1}/{len(prompts)} "
+                f"pairs={len(pairs)} jvp_count={count}"
+            )
+
+    if summed is None or count == 0:
+        raise RuntimeError("No JVP samples were estimated; check prompts and position settings.")
+    return summed / float(count), count
+
+
+def verify_full_scores_against_dictionary(
+    full_scores: Tensor,
+    activation: Tensor,
+    dictionary_payload: Mapping[str, Any],
+    layer: int,
+    tokenizer: Any,
+) -> Dict[str, Any]:
+    """Mandatory readout-full regression gate against the VJP dictionary.
+
+    Primary criterion: max per-token absolute score error divided by dictionary
+    score RMS over the candidate slice. This continuous numerical gate catches
+    scale, offset, missing diag(g), transposed-J, and wrong-layer bugs that a rank
+    statistic can hide. The fixed threshold is 0.125 (= 32 * 2^-8), chosen from
+    bf16 relative precision with room for accumulated MXFP4-dequantized bf16 / MoE
+    double-backward drift while staying far below gross implementation errors.
+
+    Auxiliary rank criterion: top-10 set equality catches gross ordering bugs, but
+    strict top-10 order is no longer a hard gate. Pairwise top-k inversions are
+    classified by the larger A/B gap normalized by top-k score RMS: <= 3 bf16 ulps
+    is a WARN-only sub-ULP near-tie, while larger inversions fail. The layer-16
+    orbit/plant diagnostic established that such sub-ULP swaps can be benign after
+    high-precision convergence and route equality checks; other layers receive the
+    same exemption only through this explicit numerical near-tie test.
+    """
+    lp = layer_payload(dictionary_payload, layer)
+    token_ids = [int(x) for x in lp["token_ids"]]
+    if not token_ids:
+        raise ValueError(f"Dictionary layer {layer} has no token_ids")
+    dict_vectors = lp["vectors"].float().cpu()
+    h = activation.detach().float().cpu()
+    dict_scores = dict_vectors @ h
+    token_index = torch.tensor(token_ids, dtype=torch.long)
+    full_slice = full_scores.detach().float().cpu()[token_index]
+
+    delta = full_slice - dict_scores
+    abs_delta = delta.abs()
+    score_rms = float(torch.sqrt(torch.mean(dict_scores.square())).item())
+    score_scale = max(score_rms, EPS)
+    rel_errors = abs_delta / score_scale
+    max_rel_idx = int(torch.argmax(rel_errors).item())
+    max_relative_error = float(rel_errors[max_rel_idx].item())
+    mean_relative_error = float(rel_errors.mean().item())
+    numeric_pass = bool(math.isfinite(max_relative_error) and max_relative_error <= READOUT_FULL_RELERR_THRESHOLD)
+
+    rho = spearman_corr(full_slice, dict_scores)
+    full_order = torch.argsort(full_slice, descending=True).tolist()
+    dict_order = torch.argsort(dict_scores, descending=True).tolist()
+    n_top = min(READOUT_FULL_TOPK_GATE, len(token_ids))
+    full_top10 = [token_ids[i] for i in full_order[:n_top]]
+    dict_top10 = [token_ids[i] for i in dict_order[:n_top]]
+    same_order = full_top10 == dict_top10
+    full_top10_set = set(full_top10)
+    dict_top10_set = set(dict_top10)
+    top10_set_match = full_top10_set == dict_top10_set
+    intersection = sorted(full_top10_set.intersection(dict_top10_set))
+
+    token_to_local_idx = {int(t): i for i, t in enumerate(token_ids)}
+    full_rank = {int(token_ids[i]): r for r, i in enumerate(full_order)}
+    dict_rank = {int(token_ids[i]): r for r, i in enumerate(dict_order)}
+    inversion_tokens = sorted(full_top10_set.union(dict_top10_set), key=lambda t: min(full_rank[t], dict_rank[t]))
+    if inversion_tokens:
+        top_local = torch.tensor([token_to_local_idx[int(t)] for t in inversion_tokens], dtype=torch.long)
+        top_rms = float(torch.sqrt(torch.mean(dict_scores[top_local].square())).item())
+    else:
+        top_rms = score_rms
+    inversion_scale = max(top_rms, score_scale, EPS)
+    sub_ulp_threshold = READOUT_FULL_SWAP_ULP_FACTOR * BF16_REL_EPS
+    inversions: List[Dict[str, Any]] = []
+    for left_pos, token_a in enumerate(inversion_tokens):
+        for token_b in inversion_tokens[left_pos + 1 :]:
+            # Rank order disagreement defines the swap. Equal tensor scores are still
+            # ordered deterministically by argsort, so we classify by score gap below.
+            if (full_rank[token_a] - full_rank[token_b]) * (dict_rank[token_a] - dict_rank[token_b]) >= 0:
+                continue
+            ia = token_to_local_idx[token_a]
+            ib = token_to_local_idx[token_b]
+            full_gap = float((full_slice[ia] - full_slice[ib]).item())
+            dict_gap = float((dict_scores[ia] - dict_scores[ib]).item())
+            gap_abs = max(abs(full_gap), abs(dict_gap))
+            normalized_gap = gap_abs / inversion_scale
+            classification = "sub_ulp_warn" if normalized_gap <= sub_ulp_threshold else "large_gap_fail"
+            inversions.append(
+                {
+                    "token_a": {"token_id": int(token_a), "text": token_label(tokenizer, int(token_a))},
+                    "token_b": {"token_id": int(token_b), "text": token_label(tokenizer, int(token_b))},
+                    "full_rank_a": int(full_rank[token_a] + 1),
+                    "full_rank_b": int(full_rank[token_b] + 1),
+                    "dictionary_rank_a": int(dict_rank[token_a] + 1),
+                    "dictionary_rank_b": int(dict_rank[token_b] + 1),
+                    "full_gap_a_minus_b": full_gap,
+                    "dictionary_gap_a_minus_b": dict_gap,
+                    "gap_abs_over_topk_rms": float(normalized_gap),
+                    "classification": classification,
+                }
+            )
+    sub_ulp_inversions = [x for x in inversions if x["classification"] == "sub_ulp_warn"]
+    large_gap_inversions = [x for x in inversions if x["classification"] == "large_gap_fail"]
+    rank_pass = bool(top10_set_match and not large_gap_inversions)
+
+    result = {
+        "layer": int(layer),
+        "score_rms_scale": float(score_scale),
+        "relative_error_threshold": float(READOUT_FULL_RELERR_THRESHOLD),
+        "relative_error_threshold_basis": "max(|A-B|) / rms(B_candidate_scores) <= 0.125 = 32 * 2^-8 bf16 rel eps; no max-min dynamic range",
+        "max_relative_error": max_relative_error,
+        "mean_relative_error": mean_relative_error,
+        "max_abs_error": float(abs_delta.max().item()),
+        "max_error_token": {
+            "token_id": int(token_ids[max_rel_idx]),
+            "text": token_label(tokenizer, int(token_ids[max_rel_idx])),
+            "full_score": float(full_slice[max_rel_idx].item()),
+            "dictionary_score": float(dict_scores[max_rel_idx].item()),
+            "abs_error": float(abs_delta[max_rel_idx].item()),
+            "relative_error": max_relative_error,
+        },
+        "numeric_pass": numeric_pass,
+        "spearman": rho,
+        "spearman_auxiliary_only": True,
+        "top10_intersection_size": int(len(intersection)),
+        "top10_n": int(n_top),
+        "top10_set_match": bool(top10_set_match),
+        "top10_same_order": bool(same_order),
+        "topk_inversion_scale": float(inversion_scale),
+        "sub_ulp_gap_threshold": float(sub_ulp_threshold),
+        "sub_ulp_gap_threshold_basis": "3 * 2^-8 after normalization by top-k dictionary score RMS",
+        "topk_inversions_total": int(len(inversions)),
+        "topk_inversions_sub_ulp_warn": int(len(sub_ulp_inversions)),
+        "topk_inversions_large_gap_fail": int(len(large_gap_inversions)),
+        "topk_inversions": inversions,
+        "rank_pass": rank_pass,
+        "full_top10": [
+            {"token_id": int(t), "text": token_label(tokenizer, int(t))} for t in full_top10
+        ],
+        "dictionary_top10": [
+            {"token_id": int(t), "text": token_label(tokenizer, int(t))} for t in dict_top10
+        ],
+    }
+    passed = bool(numeric_pass and rank_pass)
+    result["passed"] = passed
+    eprint(
+        f"[verify] layer={layer} max_rel={max_relative_error:.6g}/{READOUT_FULL_RELERR_THRESHOLD:.6g} "
+        f"Spearman={rho:.9f} top10_set={top10_set_match} same_order={same_order} "
+        f"sub_ulp_swaps={len(sub_ulp_inversions)} large_swaps={len(large_gap_inversions)} pass={passed}"
+    )
+    if not passed:
+        raise RegressionGateError(
+            "readout-full regression gate failed: "
+            f"layer={layer} max_rel={max_relative_error:.6g}/{READOUT_FULL_RELERR_THRESHOLD:.6g}, "
+            f"top10_set_match={top10_set_match}, large_gap_inversions={len(large_gap_inversions)}, "
+            f"sub_ulp_warn={len(sub_ulp_inversions)}. Check JVP direction/transpose/position/averaging/g口径.",
+            result,
+        )
+    return result
+
+
 def nnls_pgd(D_active: Tensor, target: Tensor, max_iter: int = 250, ridge: float = 1e-6) -> Tensor:
     """对活跃原子做小规模投影梯度 NNLS（非负最小二乘）求解。
 
@@ -875,6 +1469,7 @@ def build_dictionary(args: argparse.Namespace) -> None:
                 "model_id": cfg.model_id,
                 "block_path": block_path,
                 "config": asdict(cfg),
+                "calibration_prompts": calibration_prompts_metadata(prompts),
                 "candidate_texts": candidate_texts,
                 "token_to_texts": {str(k): v for k, v in token_to_texts.items()},
                 "layers": layer_dict,
@@ -937,6 +1532,169 @@ def readout(args: argparse.Namespace) -> None:
         cosine=args.cosine,
     )
     print(json.dumps({"prompt": args.prompt, "layer": args.layer, "position": args.position, "top": rows}, ensure_ascii=False, indent=2))
+
+
+def readout_full(args: argparse.Namespace) -> None:
+    verify_payload: Optional[Dict[str, Any]] = None
+    verify_cfg: Mapping[str, Any] = {}
+    if args.verify_against_dictionary:
+        verify_payload = load_dictionary(args.verify_against_dictionary)
+        verify_cfg = verify_payload.get("config", {}) or {}
+
+    # When verifying against a saved dictionary, inherit its averaging settings unless
+    # explicitly overridden, so the gate compares the same mean-Jacobian operator.
+    max_length = int(args.max_length if args.max_length is not None else verify_cfg.get("max_length", 128))
+    max_prompts = args.max_prompts if args.max_prompts is not None else verify_cfg.get("max_prompts")
+    max_pairs = int(args.max_pairs if args.max_pairs is not None else verify_cfg.get("max_pairs", 1))
+    position_mode = args.position_mode or str(verify_cfg.get("position_mode", "last"))
+
+    prompts = load_lines(args.prompts_file, DEFAULT_PROMPTS)
+    if max_prompts is not None:
+        prompts = prompts[: int(max_prompts)]
+    calibration_meta = calibration_prompts_metadata(prompts)
+    if verify_payload is not None:
+        # Fail before loading the model if the dictionary cannot prove calibration-set identity.
+        calibration_meta = assert_same_calibration_prompts(verify_payload, prompts)
+
+    model_id = args.model_id or (verify_payload or {}).get("model_id", DEFAULT_MODEL_ID)
+    model, tokenizer = load_model_and_tokenizer(
+        model_id,
+        torch_dtype=args.torch_dtype,
+        device_map=args.device_map,
+        load_in_4bit=args.load_in_4bit,
+        trust_remote_code=args.trust_remote_code,
+        local_files_only=args.local_files_only,
+        dequantize_mxfp4=args.dequantize_mxfp4,
+    )
+    blocks, block_path = find_decoder_blocks(model)
+    layer_spec = args.layers if args.layers else str(args.layer)
+    if layer_spec in {"None", ""}:
+        raise ValueError("readout-full requires --layer or --layers")
+    layers = parse_layers(layer_spec, len(blocks))
+
+    g_weight = find_final_norm_weight(model)
+    if g_weight is None:
+        eprint("[j-lens] 未找到 final-norm 可学习增益 g，readout-full 退化为 raw W_U。")
+    tracked_token_ids = resolve_tracked_token_ids(tokenizer, args.track_token, args.track_token_id)
+
+    layer_results: List[Dict[str, Any]] = []
+    for layer_idx in layers:
+        activation = capture_layer_activation(
+            model, tokenizer, blocks, args.prompt, layer_idx, args.position, max_length
+        )
+        mean_jv, jvp_count = estimate_average_jvp_for_layer(
+            model=model,
+            tokenizer=tokenizer,
+            blocks=blocks,
+            prompts=prompts,
+            layer_idx=layer_idx,
+            tangent=activation,
+            max_length=max_length,
+            max_pairs=max_pairs,
+            position_mode=position_mode,
+            jvp_dtype=args.jvp_dtype,
+        )
+        # Fixed口径: scores = W_U @ (diag(g) · mean_q[J_q · h_ℓ(query)]).
+        # The no-g vector is kept only for optional g-vs-raw diagnostics.
+        j_lens_vector = apply_final_norm_gain_to_vector(mean_jv, g_weight)
+        full_scores = score_full_vocab_from_vector(model, j_lens_vector, cosine=args.cosine)
+        result: Dict[str, Any] = {
+            "layer": int(layer_idx),
+            "jvp_samples": int(jvp_count),
+            "top": rows_from_full_scores(full_scores, tokenizer, args.top_k),
+        }
+        if tracked_token_ids:
+            tracked = tracked_rows_from_scores(full_scores, tokenizer, tracked_token_ids)
+            result["tracked"] = tracked
+        if args.include_vanilla:
+            vanilla_vector = apply_final_norm_gain_to_vector(activation, g_weight)
+            vanilla_scores = score_full_vocab_from_vector(model, vanilla_vector, cosine=args.cosine)
+            result["vanilla_top"] = rows_from_full_scores(vanilla_scores, tokenizer, args.top_k)
+            if tracked_token_ids:
+                vanilla_tracked = tracked_rows_from_scores(
+                    vanilla_scores, tokenizer, tracked_token_ids, prefix="vanilla"
+                )
+                by_tid = {int(row["token_id"]): row for row in result.get("tracked", [])}
+                for row in vanilla_tracked:
+                    base = by_tid.setdefault(int(row["token_id"]), {"token_id": int(row["token_id"]), "text": row["text"]})
+                    base.update({k: v for k, v in row.items() if k not in {"token_id", "text"}})
+                result["tracked"] = list(by_tid.values())
+        if args.compare_raw_g:
+            raw_scores = score_full_vocab_from_vector(model, mean_jv, cosine=args.cosine)
+            result["g_vs_raw_spearman_full_vocab"] = spearman_corr(full_scores, raw_scores)
+        if verify_payload is not None:
+            try:
+                result["verify_against_dictionary"] = verify_full_scores_against_dictionary(
+                    full_scores, activation, verify_payload, layer_idx, tokenizer
+                )
+            except RegressionGateError as exc:
+                result["verify_against_dictionary"] = exc.result
+                verify_lp = layer_payload(verify_payload, layer_idx)
+                result["random_token_sanity"] = random_token_sanity_from_scores(
+                    full_scores,
+                    tokenizer,
+                    [int(x) for x in verify_lp["token_ids"]],
+                    n_random=args.random_sanity_tokens,
+                    seed=args.random_sanity_seed,
+                    top_k=min(20, args.top_k),
+                )
+                layer_results.append(result)
+                payload = {
+                    "prompt": args.prompt,
+                    "position": int(args.position),
+                    "model_id": model_id,
+                    "block_path": block_path,
+                    "score_mode": "cosine_post_j_space" if args.cosine else "dot",
+                    "calibration": {
+                        "prompts_file": args.prompts_file,
+                        "num_prompts": len(prompts),
+                        "prompts_sha256": calibration_meta["prompts_sha256"],
+                        "position_mode": position_mode,
+                        "max_pairs": max_pairs,
+                        "max_length": max_length,
+                    },
+                    "gate_failed": True,
+                    "failed_layer": int(layer_idx),
+                    "failure_message": str(exc),
+                    "layers": layer_results,
+                }
+                if args.compact_json:
+                    print(json.dumps(payload, ensure_ascii=False, separators=(",", ":")))
+                else:
+                    print(json.dumps(payload, ensure_ascii=False, indent=2))
+                raise
+            verify_lp = layer_payload(verify_payload, layer_idx)
+            result["random_token_sanity"] = random_token_sanity_from_scores(
+                full_scores,
+                tokenizer,
+                [int(x) for x in verify_lp["token_ids"]],
+                n_random=args.random_sanity_tokens,
+                seed=args.random_sanity_seed,
+                top_k=min(20, args.top_k),
+            )
+        layer_results.append(result)
+
+    payload = {
+        "prompt": args.prompt,
+        "position": int(args.position),
+        "model_id": model_id,
+        "block_path": block_path,
+        "score_mode": "cosine_post_j_space" if args.cosine else "dot",
+        "calibration": {
+            "prompts_file": args.prompts_file,
+            "num_prompts": len(prompts),
+            "prompts_sha256": calibration_meta["prompts_sha256"],
+            "position_mode": position_mode,
+            "max_pairs": max_pairs,
+            "max_length": max_length,
+        },
+        "gate_failed": False,
+        "layers": layer_results,
+    }
+    if args.compact_json:
+        print(json.dumps(payload, ensure_ascii=False, separators=(",", ":")))
+    else:
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
 
 
 def decompose(args: argparse.Namespace) -> None:
@@ -1124,6 +1882,30 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--top-k", type=int, default=20)
     p.add_argument("--cosine", action="store_true", help="改用余弦相似度打分（默认使用论文口径的原始点积 ⟨v_t, h_ℓ⟩）。")
     p.set_defaults(func=readout)
+
+    p = sub.add_parser("readout-full", help="全 vocab JVP readout：scores = W_U @ (diag(g)·mean J·h_l)；MoE double-backward patch 仅在 JVP 段临时生效并自动还原。")
+    add_model_args(p)
+    p.add_argument("--prompt", required=True, help="query prompt，用于捕获 h_l(query)。")
+    p.add_argument("--layer", type=int, help="单层 readout；若提供 --layers 则可省略。")
+    p.add_argument("--layers", help="all、逗号列表、区间 a-b，或 Python 风格 a:b；用于逐层轨迹。")
+    p.add_argument("--position", type=int, default=-1)
+    p.add_argument("--prompts-file", help="calibration prompts；默认使用内置 DEFAULT_PROMPTS。")
+    p.add_argument("--position-mode", choices=["last", "all-same", "causal-window"], help="默认 last；验证字典时默认继承字典配置。")
+    p.add_argument("--max-pairs", type=int, help="每个 calibration prompt 的位置对数；验证字典时默认继承字典配置。")
+    p.add_argument("--max-prompts", type=int, help="截断 calibration prompts；验证字典时默认继承字典配置。")
+    p.add_argument("--max-length", type=int, help="tokenization 最大长度；验证字典时默认继承字典配置，否则 128。")
+    p.add_argument("--top-k", type=int, default=20)
+    p.add_argument("--cosine", action="store_true", help="诊断用 post-J-space cosine；默认关，论文口径为点积。")
+    p.add_argument("--jvp-dtype", default="auto", choices=["auto", "fp32", "float32", "fp16", "float16", "bf16", "bfloat16"], help="诊断用：仅改变 double-backward JVP 的 y/u/tangent dtype，不提升模型权重/matmul；不得作为高精度参照。默认 auto 保持原行为。")
+    p.add_argument("--verify-against-dictionary", help="强制回归门：把全 vocab 分数切到字典候选 token 并对拍现有 readout。")
+    p.add_argument("--random-sanity-tokens", type=int, default=200, help="验证字典时额外报告的固定随机 token 数；仅做全 vocab sanity，不参与字典 Spearman 门。")
+    p.add_argument("--random-sanity-seed", type=int, default=0, help="随机 token sanity 的固定种子。")
+    p.add_argument("--track-token", action="append", help="额外报告该 token 的全 vocab rank；可重复。")
+    p.add_argument("--track-token-id", action="append", type=int, help="额外报告该 token id 的全 vocab rank；可重复。")
+    p.add_argument("--include-vanilla", action="store_true", help="同时输出 vanilla logit-lens（不过 J，仅 diag(g)·h_l）rank/top-k。")
+    p.add_argument("--compare-raw-g", action="store_true", help="输出 full-vocab 折 g vs 不折 g 的 Spearman 诊断。")
+    p.add_argument("--compact-json", action="store_true", help="单行 JSON，便于写 JSONL。")
+    p.set_defaults(func=readout_full)
 
     p = sub.add_parser("decompose", help="对某个 activation 做稀疏非负 J-space 分解。")
     add_model_args(p)

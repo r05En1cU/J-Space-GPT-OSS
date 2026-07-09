@@ -1,0 +1,13 @@
+{
+  "out_jsonl": "/ai/mount/stlsy/workspace/J-Space-GPT-OSS/paper_readout_full_trajectories_v2.jsonl",
+  "probes": 20,
+  "layers": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    23
+  ]
+}

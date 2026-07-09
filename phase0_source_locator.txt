@@ -1,0 +1,481 @@
+FILE /ai/mount/stlsy/workspace/J-Space-GPT-OSS/_paper_fetch/jacobian-lens/jlens/vis.py
+275:             top_idx = logits.topk(top_n, dim=-1).indices
+285:                 .topk(top_n, dim=-1)
+
+FILE /ai/mount/stlsy/workspace/J-Space-GPT-OSS/_paper_fetch/jacobian-lens/jlens/_logging.py
+53:     package_logger.propagate = False
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/_pydecimal.py
+1120:             ans = self.copy_negate()
+1266:         # self - other is computed as self + other.copy_negate()
+1267:         return self.__add__(other.copy_negate(), context=context)
+1653:     def conjugate(self):
+2356:             # negate self, without doing any unwanted rounding
+2357:             self = self.copy_negate()
+2498:             # propagate signals to the original context; _fix could
+3033:     def copy_negate(self):
+4335:     def copy_negate(self, a):
+4338:         >>> ExtendedContext.copy_negate(Decimal('101.5'))
+4340:         >>> ExtendedContext.copy_negate(Decimal('-101.5'))
+4342:         >>> ExtendedContext.copy_negate(1)
+4346:         return a.copy_negate()
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/_pyio.py
+2674:                                        errors="surrogatepass",
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/cgi.py
+392:             qs = qs.encode(locale.getpreferredencoding(), 'surrogateescape')
+640:         # Propagate max_num_fields into the sub class appropriately
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/codecs.py
+128:          'surrogateescape' - replace with private code points U+DCnn.
+860:         # Seeks must be propagated to both the readers and writers
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/codeop.py
+64:         except SyntaxError:  # Let other compile() errors propagate.
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/csv.py
+3: csv.py - read/write/investigate CSV files
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/dataclasses.py
+1051:         # since python will call __eq__ and negate it.
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/dis.py
+123: # The inspect module interrogates this dictionary to build its
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/fnmatch.py
+138:                     # Negated empty range: match any character.
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/inspect.py
+2966:                 top_kind = _POSITIONAL_ONLY
+2973:                     if kind < top_kind:
+2978:                         msg = msg.format(top_kind.description,
+2981:                     elif kind > top_kind:
+2982:                         top_kind = kind
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/ntpath.py
+62:             s = s.decode(encoding, 'surrogateescape').replace('/', '\\')
+65:             return s.encode(encoding, 'surrogateescape')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/numbers.py
+36:     *, /, **, abs(), .conjugate, ==, and !=.
+135:     def conjugate(self):
+136:         """(x+y*i).conjugate() returns (x-y*i)."""
+260:     def conjugate(self):
+261:         """Conjugate is a no-op for Reals."""
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/pickle.py
+853:             encoded = obj.encode('utf-8', 'surrogatepass')
+1367:         self.append(str(self.read(len), 'utf-8', 'surrogatepass'))
+1375:         self.append(str(self.read(len), 'utf-8', 'surrogatepass'))
+1427:         self.append(str(self.read(len), 'utf-8', 'surrogatepass'))
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/pickletools.py
+651:         return str(data, 'utf-8', 'surrogatepass')
+692:         return str(data, 'utf-8', 'surrogatepass')
+733:         return str(data, 'utf-8', 'surrogatepass')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/pydoc.py
+1006:             # Pump out the attrs, segregated by kind.
+1174:                 # ignore a module if its name contains a surrogate character
+1492:             # Pump out the attrs, segregated by kind.
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/ssl.py
+100: import _ssl             # if we can't import it, let the error propagate
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/tarfile.py
+1001:     def tobuf(self, format=DEFAULT_FORMAT, encoding=ENCODING, errors="surrogateescape"):
+1200:         # Check if one of the fields contains surrogate characters and thereby
+1220:                 value = value.encode(encoding, "surrogateescape")
+1695:             errors="surrogateescape", pax_headers=None, debug=None,
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/tempfile.py
+491:         # Attribute lookups are delegated to the underlying file
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/doctest.py
+1165:     have been run by the runner, and returns an aggregated `(f, t)`
+1179:     The aggregated number of tried examples and failed examples is
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/nntplib.py
+34: # - all commands are encoded as UTF-8 data (using the "surrogateescape"
+36: # - all responses are decoded as UTF-8 data (using the "surrogateescape"
+308:     # we use 'surrogateescape' as the error handler for fault tolerance
+310:     # (e.g. NNTP gateways).
+313:     errors = 'surrogateescape'
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/os.py
+759:             return value.encode(encoding, 'surrogateescape')
+761:             return value.decode(encoding, 'surrogateescape')
+808:         encoding with 'surrogateescape' error handler, return bytes unchanged.
+820:         encoding with 'surrogateescape' error handler, return str unchanged. On
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/pdb.py
+1296:         exception was originally raised or propagated is indicated by
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/pkgutil.py
+71:     exceptions are propagated, terminating the search.
+333:                 self.code = self._get_delegate().get_code()
+351:                 self.source = self._get_delegate().get_source()
+354:     def _get_delegate(self):
+363:             return self._get_delegate().get_filename()
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/statistics.py
+548: # FIXME: investigate ways to calculate medians without sorting? Quickselect?
+1362:         "Negates mu while keeping sigma the same."
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/sysconfig.py
+330:               errors="surrogateescape") as f:
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/difflib.py
+1286:             return s.decode('ascii', 'surrogateescape')
+1301:         yield line.encode('ascii', 'surrogateescape')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/shutil.py
+829:     to copy the source or it will be delegated to `copytree`.
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/asyncio/taskgroups.py
+76:         propagate_cancellation_error = \
+82:                 # don't propagate CancelledError.
+83:                 propagate_cancellation_error = None
+121:                     propagate_cancellation_error = ex
+131:         # Propagate CancelledError if there is one, except if there
+133:         if propagate_cancellation_error and not self._errors:
+134:             raise propagate_cancellation_error
+169:     # Since Python 3.8 Tasks propagate all exceptions correctly,
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/asyncio/tasks.py
+722:             # propagate the cancellation request regardless of
+741:     raised exception will be immediately propagated to the returned
+811:                 # If gather is being cancelled we must propagate the
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/asyncio/threads.py
+16:     to *func*. Also, the current :class:`contextvars.Context` is propagated,
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/distutils/core.py
+58:     """The gateway to the Distutils: do everything your setup script needs
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/distutils/dist.py
+84:     # options that are not propagated to the commands
+157:         # worth it.  Also delegate 'get_XXX()' methods to the 'metadata'
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/distutils/sysconfig.py
+79:     fp = TextFile(fn, strip_comments=1, skip_blanks=1, join_lines=1, errors="surrogateescape")
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/_encoded_words.py
+177:     bstring = cte_string.encode('ascii', 'surrogateescape')
+185:         string = bstring.decode(charset, 'surrogateescape')
+187:         string = bstring.decode('ascii', 'surrogateescape')
+222:         bstring = string.encode('ascii', 'surrogateescape')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/_header_value_parser.py
+793:                         # source had surrogate escaped bytes.  What we do now
+799:                             value = value.decode(charset, 'surrogateescape')
+805:                             value = value.decode('us-ascii', 'surrogateescape')
+806:                         if utils._has_surrogates(value):
+1010:     if utils._has_surrogates(xtext):
+3014:             if utils._has_surrogates(value):
+3016:                 error_handler = 'surrogateescape'
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/_policybase.py
+9: from email.utils import _has_surrogates
+234:         surrogateescaped binary data.
+250:         surrogateescaped binary data if the lines were parsed by a BytesParser.
+251:         The returned value should not contain any surrogateescaped data.
+261:         package may contain surrogateescaped binary data if the lines were
+263:         surrogateescaped data.
+273:         email package may contain surrogateescaped binary data.
+290:         # If the header value contains surrogates, return a Header using
+295:         if _has_surrogates(value):
+346:         return folded.encode('ascii', 'surrogateescape')
+352:             if _has_surrogates(value):
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/charset.py
+154: # that they might be unknown-8bit (ie: have surrogate-escaped bytes)
+157:         return string.encode('ascii', 'surrogateescape')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/contentmanager.py
+157:                 return '8bit', normal_body(lines).decode('ascii', 'surrogateescape')
+172:         data = normal_body(lines).decode('ascii', 'surrogateescape')
+209:         # result of that should be a gateway that needs to coerce to 7bit
+245:         data = data.decode('ascii', 'surrogateescape')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/generator.py
+16: from email.utils import _has_surrogates
+71:         # Just delegate to the file object
+251:         if _has_surrogates(msg._payload):
+411:     bytes and not string.  When surrogates were used in the input to encode
+421:         self._fp.write(s.encode('ascii', 'surrogateescape'))
+447:         # If the string has surrogates the original source was bytes, so
+451:         if _has_surrogates(msg._payload) and not self.policy.cte_type=='7bit':
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/headerregistry.py
+193:         if utils._has_surrogates(kwds['decoded']):
+232:         contains surrogateescaped bytes, the bytes are CTE encoded using
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/utils.py
+52: def _has_surrogates(s):
+53:     """Return True if s may contain surrogate-escaped binary data."""
+54:     # This check is based on the fact that unless there are surrogates, utf8
+56:     # way to check for surrogates, see bpo-11454 (moved to gh-55663) for timings.
+70:     original_bytes = string.encode('utf-8', 'surrogateescape')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/message.py
+299:             if isinstance(payload, str) and utils._has_surrogates(payload):
+301:                     bpayload = payload.encode('ascii', 'surrogateescape')
+311:                 bpayload = payload.encode('ascii', 'surrogateescape')
+349:             payload = payload.encode(charset.output_charset, 'surrogateescape')
+351:             self._payload = payload.decode('ascii', 'surrogateescape')
+398:                         payload = payload.encode('ascii', 'surrogateescape')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/parser.py
+106:         fp = TextIOWrapper(fp, encoding='ascii', errors='surrogateescape')
+121:         text = text.decode('ASCII', errors='surrogateescape')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/policy.py
+8: from email.utils import _has_surrogates
+155:         header object is returned.  Any surrogateescaped bytes get turned
+202:         return folded.encode(charset, 'surrogateescape')
+218:                 refold = _has_surrogates(value)
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/feedparser.py
+534:         super().feed(data.decode('ascii', 'surrogateescape'))
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/email/header.py
+238:                 original_bytes = string.encode('ascii', 'surrogateescape')
+289:                 s = s.decode('us-ascii', 'surrogateescape')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/encodings/punycode.py
+10: def segregate(str):
+118:     base, extended = segregate(text)
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/http/__init__.py
+142:         'The gateway server did not receive a timely response')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/http/server.py
+799:                                                errors='surrogatepass')
+824:                                           errors='surrogatepass'),
+827:         encoded = '\n'.join(r).encode(enc, 'surrogateescape')
+851:             path = urllib.parse.unquote(path, errors='surrogatepass')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/json/encoder.py
+63:                 # surrogate pair
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/json/__init__.py
+341:         s = s.decode(detect_encoding(s), 'surrogatepass')
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/lib2to3/patcomp.py
+92:         if node.type == self.syms.NegatedUnit:
+94:             p = pytree.NegatedPattern(pattern)
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/lib2to3/pytree.py
+793: class NegatedPattern(BasePattern):
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/lib2to3/refactor.py
+59:     if isinstance(pat, pytree.NegatedPattern):
+62:         raise _EveryNode # Negated Patterns don't have a type
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/pydoc_data/topics.py
+546:           '[1] The exception is propagated to the invocation stack unless '
+4011:              '[1] The exception is propagated to the invocation stack unless '
+4125:                      '   exception (i.e., prevent it from being propagated), '
+4411:                   'delegate\n'
+4467:                   'delegates to\n'
+5212:              '   originally raised or propagated is indicated by ">>", if it '
+9406:                  'delegate\n'
+9462:                  'delegates to\n'
+10415:                  'in the class namespace. If present, this must be propagated '
+11207:                  '   exception (i.e., prevent it from being propagated), it '
+15106:              '   * for other types, investigate the relevant class '
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/re/_parser.py
+567:             negate = sourcematch("^")
+632:                 if negate:
+637:                 if negate:
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/unittest/_log.py
+55:         self.old_propagate = logger.propagate
+58:         logger.propagate = False
+65:         self.logger.propagate = self.old_propagate
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/unittest/signals.py
+31:             # if we aren't the installed handler, then delegate immediately
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/unittest/mock.py
+182:     # creates a function with signature (*args, **kwargs) that delegates to a
+254:     mock._mock_delegate = funcopy
+333:         sig = self._mock_delegate
+338:         sig = self._mock_delegate
+461:         __dict__['_mock_delegate'] = None
+538:         if self._mock_delegate is not None:
+539:             ret = self._mock_delegate.return_value
+550:         if self._mock_delegate is not None:
+551:             self._mock_delegate.return_value = value
+575:         delegated = self._mock_delegate
+576:         if delegated is None:
+578:         sf = delegated.side_effect
+582:             delegated.side_effect = sf
+587:         delegated = self._mock_delegate
+588:         if delegated is None:
+591:             delegated.side_effect = value
+1197:         if self._mock_delegate and self._mock_delegate.return_value is not DEFAULT:
+1256:       mock. This can be useful for debugging. The name is propagated to child
+2245:                     # It is impossible to propagate a StopIteration
+2757:         # we could be resilient against it, or catch and propagate the
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/wsgiref/__init__.py
+9: * handlers -- base classes for server/gateway implementations
+20: * cgi_gateway -- Run WSGI apps under CGI (pending a deployment standard)
+24: * router -- a simple middleware component that handles URL traversal
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/wsgiref/handlers.py
+1: """Base classes for server/gateway implementations"""
+37:     esc = 'surrogateescape'
+85:             # Recover bytes from unicode environ, using surrogate escapes
+492:     This handler class is useful for gateway protocols like ReadyExec and
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/ctypes/__init__.py
+283:                 # UTF-16 requires a surrogate pair (2 wchar_t) for non-BMP
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/logging/config.py
+191:                 logger.propagate = True
+240:         propagate = section.getint("propagate", fallback=1)
+257:         logger.propagate = propagate
+276:     #        logger.propagate = 1
+642:                 #        logger.propagate = True
+810:         propagate = config.get('propagate', None)
+811:         if propagate is not None:
+812:             logger.propagate = propagate
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/logging/__init__.py
+62: #propagated
+1455:         self.propagate = True
+1674:         Stop searching up the hierarchy whenever a logger with the "propagate"
+1684:             if not c.propagate:
+1697:         logger with the "propagate" attribute set to zero is found - that
+1707:             if not c.propagate:
+1841:         Delegate a debug call to the underlying logger.
+1847:         Delegate an info call to the underlying logger.
+1853:         Delegate a warning call to the underlying logger.
+1864:         Delegate an error call to the underlying logger.
+1870:         Delegate an exception call to the underlying logger.
+1876:         Delegate a critical call to the underlying logger.
+1882:         Delegate a log call to the underlying logger, after adding
+2071: # Basically delegate everything to the root logger.
+2236:     delegate to the original warnings implementation of showwarning. Otherwise,
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/multiprocessing/util.py
+72:             _logger.propagate = 0
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/tkinter/__init__.py
+1751:     def pack_propagate(self, flag=_noarg_):
+1760:                 'pack', 'propagate', self._w))
+1762:             self.tk.call('pack', 'propagate', self._w, flag)
+1764:     propagate = pack_propagate
+1855:         weight (how much does additional space propagate to this column)
+1869:     def grid_propagate(self, flag=_noarg_):
+1878:                 'grid', 'propagate', self._w))
+1880:             self.tk.call('grid', 'propagate', self._w, flag)
+1886:         weight (how much does additional space propagate to this row)
+2428:         "Delegate attribute access to the interpreter object"
+2440: # take a master as argument (e.g. pack_propagate) have been moved to
+2492:     propagate = pack_propagate = Misc.pack_propagate
+2596:     propagate = grid_propagate = Misc.grid_propagate
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/tkinter/tix.py
+741:     navigate through the file system to select the desired directory.
+1097:     The user can navigate through these pages by
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/zoneinfo/_common.py
+23:         #   such as keys containing a surrogate character.
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/idlelib/colorizer.py
+106:         delegate: Delegator below this one in the stack, meaning the
+107:                 one this one delegates to.
+132:     def setdelegate(self, delegate):
+133:         """Set the delegate for this instance.
+135:         A delegate is an instance of a Delegator class and each
+136:         delegate points to the next delegator in the stack.  This
+138:         widget.  The bottom delegate for a colorizer is a Text
+141:         If there is a delegate, also start the colorizing process.
+143:         if self.delegate is not None:
+145:         Delegator.setdelegate(self, delegate)
+146:         if delegate is not None:
+151:             # No delegate - stop any colorizing.
+184:         self.delegate.insert(index, chars, tags)
+190:         self.delegate.delete(index1, index2)
+251:         if not self.delegate:
+252:             if DEBUG: print("no delegate")
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/idlelib/delegator.py
+3:     def __init__(self, delegate=None):
+4:         self.delegate = delegate
+7:         # when changing the delegate.
+10:         attr = getattr(self.delegate, name) # May raise AttributeError
+26:     def setdelegate(self, delegate):
+27:         "Reset attributes and change delegate."
+29:         self.delegate = delegate
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/idlelib/iomenu.py
+17: errors = 'surrogatepass' if sys.platform == 'win32' else 'surrogateescape'
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/idlelib/percolator.py
+20:         self.bottom.setdelegate(None)
+37:         assert filter.delegate is None
+38:         filter.setdelegate(self.top)
+44:         assert filter.delegate is None
+50:             f = f.delegate
+53:         filter.setdelegate(f.delegate)
+54:         f.setdelegate(filter)
+59:         assert filter.delegate is not None
+62:             self.top = filter.delegate
+63:             filter.setdelegate(None)
+65:             while f.delegate is not filter:
+68:                 f = f.delegate
+69:             f.setdelegate(filter.delegate)
+70:             filter.setdelegate(None)
+83:             self.delegate.insert(*args)
+87:             self.delegate.delete(*args)
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/idlelib/pyshell.py
+357:             if self.delegate.compare(index, "<", "iomark"):
+358:                 self.delegate.bell()
+366:             if self.delegate.compare(index1, "<", "iomark"):
+367:                 self.delegate.bell()
+374:         # Temporarily monkey-patch the delegate's .insert() method to
+378:         orig_insert = self.delegate.insert
+379:         self.delegate.insert = \
+384:             self.delegate.insert = orig_insert
+392:         self.delegate.insert(index, chars, tags)
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/idlelib/sidebar.py
+276:         self.delegate.insert(index, chars, tags)
+277:         self.changed_callback(get_end_linenumber(self.delegate))
+280:         self.delegate.delete(index1, index2)
+281:         self.changed_callback(get_end_linenumber(self.delegate))
+379:         self.delegate.insert(index, chars, tags)
+395:         self.delegate.delete(index1, index2)
+418:         if d.delegate is not self.text:
+419:             while d.delegate is not self.editwin.per.bottom:
+420:                 d = d.delegate
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/idlelib/undo.py
+29:     def setdelegate(self, delegate):
+30:         if self.delegate is not None:
+34:         Delegator.setdelegate(self, delegate)
+35:         if delegate is not None:
+118:             cmd.do(self.delegate)
+144:         cmd.undo(self.delegate)
+155:         cmd.redo(self.delegate)
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/importlib/_bootstrap_external.py
+979:         # For backwards compatibility, we delegate to set_data()
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/importlib/resources/abc.py
+63:     may propagate unaltered.
+
+FILE /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/idlelib/idle_test/test_delegator.py
+14:         self.assertIs(mydel.delegate, int)
+36:         # Change delegate to float, first resetting the attributes.
+37:         mydel.setdelegate(float)  # calls resetcache
+40:         self.assertIs(mydel.delegate, float)
+

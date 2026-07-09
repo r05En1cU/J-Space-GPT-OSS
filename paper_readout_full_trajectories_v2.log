@@ -1,0 +1,863 @@
+[mxfp4] 以反量化模式加载（dequantize=True, mode=auto）
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/411 [00:00<?, ?it/s]Loading weights:   0%|          | 1/411 [00:00<05:15,  1.30it/s]Loading weights:   1%|          | 5/411 [00:01<01:08,  5.90it/s]Loading weights:   2%|▏         | 7/411 [00:01<01:06,  6.08it/s]Loading weights:   5%|▌         | 22/411 [00:01<00:21, 18.29it/s]Loading weights:   6%|▌         | 24/411 [00:02<00:29, 12.99it/s]Loading weights:   9%|▉         | 39/411 [00:02<00:17, 21.75it/s]Loading weights:  10%|█         | 42/411 [00:02<00:21, 17.54it/s]Loading weights:  14%|█▎        | 56/411 [00:03<00:15, 22.85it/s]Loading weights:  14%|█▍        | 59/411 [00:03<00:20, 16.89it/s]Loading weights:  18%|█▊        | 73/411 [00:04<00:14, 23.70it/s]Loading weights:  18%|█▊        | 76/411 [00:04<00:16, 19.82it/s]Loading weights:  22%|██▏       | 90/411 [00:04<00:11, 27.17it/s]Loading weights:  34%|███▍      | 141/411 [00:04<00:03, 81.08it/s]Loading weights:  47%|████▋     | 192/411 [00:04<00:01, 139.21it/s]Loading weights:  59%|█████▉    | 243/411 [00:05<00:00, 198.34it/s]Loading weights:  72%|███████▏  | 294/411 [00:05<00:00, 254.91it/s]Loading weights:  84%|████████▍ | 345/411 [00:05<00:00, 305.79it/s]Loading weights:  96%|█████████▋| 396/411 [00:05<00:00, 348.63it/s]Loading weights: 100%|██████████| 411/411 [00:05<00:00, 76.12it/s] 
+[paper-trajectory] probe=1/20 source=flexible-generalization category=animals name=animals/habitat/lion token=' savanna' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=2/20 source=flexible-generalization category=countries name=countries/capital/France token=' Paris' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=3/20 source=flexible-generalization category=months name=months/season/February token=' winter' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=4/20 source=flexible-generalization category=numbers name=numbers/double/three token=' six' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=5/20 source=probe-swap category=animal-cover name=animal-cover-turtle token=' shell' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=6/20 source=probe-swap category=animal-legs name=animal-legs-buffalo2 token=' four' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=7/20 source=probe-swap category=animal-nose name=animal-nose-elephant token=' trunk' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=8/20 source=probe-swap category=beverage-source name=beverage-source-wine token=' grape' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=9/20 source=probe-swap category=bird-color name=bird-color-swan token=' white' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=10/20 source=probe-swap category=bird-country name=bird-country-eagle token=' America' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=11/20 source=probe-swap category=bird-time name=bird-time-owl token=' night' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=12/20 source=probe-swap category=city-capital name=ex-city-capital-Barcelona-Toronto token=' Madrid' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=13/20 source=probe-swap category=city-continent name=ex-city-continent-Toronto-Lyon token=' North' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=14/20 source=probe-swap category=city-currency name=ex-city-currency-Toronto-Beijing token=' Canadian' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=15/20 source=probe-swap category=city-language name=ex-city-language-Lyon-Naples token=' French' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=16/20 source=probe-swap category=city-state name=city-state-Philadelphia token=' Pennsylvania' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=17/20 source=probe-swap category=element-color name=element-color-gold2 token=' yellow' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=18/20 source=probe-swap category=element-state name=ex-element-state-26-8 token=' solid' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=19/20 source=probe-swap category=element-symbol name=ex-element-symbol-11-26 token=' Na' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[paper-trajectory] probe=20/20 source=probe-swap category=food-animal name=food-animal-butter token=' cow' layers=[0, 4, 8, 12, 16, 20, 23]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/4 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/4 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/4 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/4 pairs=1 jvp_count=4
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP

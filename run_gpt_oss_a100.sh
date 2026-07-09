@@ -7,7 +7,7 @@
 #
 # 用法：
 #   bash run_gpt_oss_a100.sh            # 全流程
-#   STEP=download bash run_gpt_oss_a100.sh   # 只跑某一步：download|smoke|dict|readout|decompose|steer|gcheck
+#   STEP=download bash run_gpt_oss_a100.sh   # 只跑某一步：download|smoke|dict|readout|readout-full|decompose|steer|gcheck
 #
 # 说明：MXFP4 专家权重加载时反量化为 bf16（A100 compute_cap 8.0 无 FP4 tensor core，
 # 且 J-lens 求 VJP 需稠密可导权重）。反量化后显存约 40GB，A100 80GB 足够。
@@ -19,7 +19,13 @@ HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODEL_DIR="${MODEL_DIR:-$HERE/gpt-oss-20b}"
 OUT="${OUT:-$HERE/gpt_oss_20b_jspace_dictionary.pt}"
 LAYERS="${LAYERS:-0,4,8,12,16,20}"
+FULL_LAYERS="${FULL_LAYERS:-$LAYERS}"
 LAYER="${LAYER:-12}"
+READOUT_FULL_VERIFY="${READOUT_FULL_VERIFY:-$HERE/readout_full_verify_layer${LAYER}.json}"
+READOUT_FULL_DICT="${READOUT_FULL_DICT:-$HERE/readout_full_regression_dictionary_layer${LAYER}.pt}"
+READOUT_FULL_JSONL="${READOUT_FULL_JSONL:-$HERE/readout_full_trajectories.jsonl}"
+FIG_DIR="${FIG_DIR:-$HERE/figures}"
+MAX_PROBES="${MAX_PROBES:-3}"
 STEP="${STEP:-all}"
 export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"
 
@@ -97,6 +103,24 @@ step_readout() {
   cat "$HERE/readout_spider_layer${LAYER}.json"
 }
 
+step_readout_full() {
+  echo -e "
+[1;36m==> readout-full 回归门 + 全 vocab 浮现轨迹出图[0m"
+  if [ ! -f "$OUT" ]; then
+    echo "  [info] 字典不存在，先执行 STEP=dict 生成 $OUT"
+    step_dict
+  fi
+
+  echo "-- 回归门：full-vocab slice vs dictionary readout --"
+  JS readout-full --prompt "A spider builds a"      --layer "$LAYER" --position -1 --prompts-file "$HERE/calibration_prompts.txt"      --max-prompts 8 --max-length 128 --max-pairs 1 --position-mode last      --top-k 20 --verify-against-dictionary "$OUT"      > "$READOUT_FULL_VERIFY"
+  cat "$READOUT_FULL_VERIFY"
+
+  echo "-- 生成多探针 JSONL（J-Lens + vanilla logit-lens）--"
+  HF_HUB_OFFLINE=1 conda run --no-capture-output -n "$ENV" python "$HERE/generate_readout_full_trajectories.py"      --model-id "$MODEL_DIR" --local-files-only --torch-dtype bfloat16 --device-map auto      --prompts-file "$HERE/calibration_prompts.txt" --layers "$FULL_LAYERS"      --max-prompts 8 --max-length 128 --max-pairs 1 --position-mode last      --max-probes "$MAX_PROBES" --top-k 20 --out-jsonl "$READOUT_FULL_JSONL"
+
+  HF_HUB_OFFLINE=1 conda run --no-capture-output -n "$ENV" python "$HERE/plot_readout_full_trajectories.py"      --input "$READOUT_FULL_JSONL" --out-dir "$FIG_DIR"
+}
+
 step_decompose() {
   echo -e "\n\033[1;36m==> decompose（稀疏非负 J-space 分解 k=25）\033[0m"
   JS decompose --dictionary "$OUT" --prompt "A spider builds a" \
@@ -123,6 +147,7 @@ case "$STEP" in
   smoke)    step_smoke ;;
   dict)     step_dict ;;
   readout)  step_readout ;;
+  readout-full) step_readout_full ;;
   decompose) step_decompose ;;
   steer)    step_steer ;;
   gcheck)   step_gcheck ;;
@@ -131,10 +156,11 @@ case "$STEP" in
     step_smoke
     step_dict
     step_readout
+    step_readout_full
     step_decompose
     step_steer
     step_gcheck
-    echo -e "\n\033[1;32m全流程完成。产物：$OUT, readout/decompose/steer_*.json\033[0m"
+    echo -e "\n\033[1;32m全流程完成。产物：$OUT, readout/decompose/steer_*.json, readout_full_*.json*, figures/*.png\033[0m"
     ;;
-  *) echo "未知 STEP=$STEP（可选 download|smoke|dict|readout|decompose|steer|gcheck|all）"; exit 1 ;;
+  *) echo "未知 STEP=$STEP（可选 download|smoke|dict|readout|readout-full|decompose|steer|gcheck|all）"; exit 1 ;;
 esac

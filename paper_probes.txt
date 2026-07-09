@@ -1,0 +1,221 @@
+# Paper probes extracted from Anthropic, "Verbalizable Representations Form a Global Workspace in Language Models" (Transformer Circuits, 2026-07-06).
+# Paper page source: /ai/mount/stlsy/workspace/J-Space-GPT-OSS/_paper_fetch/workspace_index.html; official repo source: https://github.com/anthropics/jacobian-lens.
+# Included official raw prompt files: data/experiments/flexible-generalization.json; data/experiments/probe-swap.json; data/evaluations/lens-eval-multihop.json.
+# Scope: prompt -> final expected next-token answer for fact/multihop/flexible-generalization probes; association/typo/poetry/etc. readout-only evals are not included.
+# Exact duplicate prompt-answer pairs across sources were omitted. Total non-comment prompts: 215.
+# Note: for lens-eval-multihop, the repo README says target defines the readout position and intermediates are the scored J-lens concepts; target is used here to fit the requested prompt->answer file format.
+The capital of France is the city of
+The capital of Canada is the city of
+The capital of China is the city of
+The capital of Egypt is the city of
+Most people in France speak
+Most people in Canada speak
+Most people in China speak
+Most people in Egypt speak
+France is a country on the continent of
+Canada is a country on the continent of
+China is a country on the continent of
+Egypt is a country on the continent of
+The single-word name for the currency now used in France is the
+The single-word name for the currency now used in Canada is the
+The single-word name for the currency now used in China is the
+The single-word name for the currency now used in Egypt is the
+In the northern hemisphere, February is in the season of
+In the northern hemisphere, April is in the season of
+In the northern hemisphere, July is in the season of
+In the northern hemisphere, October is in the season of
+Counting from January, February is month number
+Counting from January, April is month number
+Counting from January, July is month number
+Counting from January, October is month number
+The biggest holiday in February is
+The biggest holiday in April is
+The biggest holiday in July is
+The biggest holiday in October is
+The month right after February is
+The month right after April is
+The month right after July is
+The month right after October is
+The natural habitat of a lion is the
+The natural habitat of a eagle is the
+The natural habitat of a shark is the
+The natural habitat of a spider is the
+How many legs does a lion have? In one word:
+How many legs does a eagle have? In one word:
+How many legs does a shark have? In one word:
+How many legs does a spider have? In one word:
+Biologically, a lion is a type of
+Biologically, a eagle is a type of
+Biologically, a shark is a type of
+Biologically, a spider is a type of
+A group of lions is called a
+A group of eagles is called a
+A group of sharks is called a
+A group of spiders is called a
+Two times three equals
+Two times five equals
+Two times seven equals
+Two times nine equals
+three squared equals
+five squared equals
+seven squared equals
+nine squared equals
+The number that comes right after three is
+The number that comes right after five is
+The number that comes right after seven is
+The number that comes right after nine is
+The word 'three' begins with the letter
+The word 'five' begins with the letter
+The word 'seven' begins with the letter
+The word 'nine' begins with the letter
+Fact: The language spoken in the country where the Amazon River ends is 
+Fact: The hard covering on the back of the slow reptile that can pull its head inside its body is called a
+Fact: The number of legs on the large horned animal that roamed the American plains in huge herds is
+Fact: The long flexible body part that the largest land animal uses to pick things up is called a
+Fact: The state of matter at room temperature of the element with atomic number 80 is 
+Fact: The number of players per side in the sport invented in Springfield, Massachusetts is 
+Fact: The fruit that the alcoholic drink served at communion is made from is the
+Fact: The color of the long-necked bird in the famous Tchaikovsky ballet is
+Fact: The country whose national emblem is the bird with the white head on the Great Seal is
+Fact: The time of day when the bird that hoots and can turn its head almost all the way around hunts is
+Fact: Emerald is the birthstone for month number 
+Fact: The atomic number of the gas that makes up about 78 percent of the atmosphere is 
+Fact: The atomic number of the metal most abundant in human bones is 
+Fact: The atomic number of the element present in all organic compounds by definition is 
+Fact: The atomic number of the gas that plants release during photosynthesis is 
+Fact: The season when the holiday with a decorated tree occurs is 
+Fact: The US state where the city famous for the Liberty Bell is located is
+Fact: The currency used in the country where the Colosseum stands is the 
+Fact: The color of the precious metal with atomic number 79 is
+Fact: Counting Monday as day 1, the day of the week named after the Norse goddess Frigg is day number 
+Fact: The planet named after the Roman god of agriculture and time is planet number 
+Fact: The month named after the Roman god of war is month number 
+Fact: The capital of the country where Barcelona is located is
+Fact: The capital of the country where Lyon is located is
+Fact: The capital of the country where Naples is located is
+Fact: The capital of the country where Toronto is located is
+Fact: The continent of the country where Toronto is located is
+Fact: The currency used in the country where Toronto is located is the
+Fact: The language spoken in the country where Lyon is located is
+Fact: The state of matter at room temperature of the element with atomic number 26 is
+Fact: The state of matter at room temperature of the element with atomic number 8 is
+Fact: The state of matter at room temperature of the element with atomic number 80 is
+Fact: The chemical symbol for the element with atomic number 11 is
+Fact: The chemical symbol for the element with atomic number 26 is
+Fact: The color of the planet third from the Sun is
+Fact: The capital of the country where Munich is located is
+Fact: The capital of the country where Osaka is located is
+Fact: The continent of the country where Lima is located is
+Fact: The continent of the country where Sydney is located is
+Fact: The language spoken in the country where Cairo is located is
+Fact: The language spoken in the country where Moscow is located is
+Fact: The capital of the country where Greek is the primary language is
+Fact: The capital of the country where Hungarian is the primary language is
+Fact: The capital of the country where Polish is the primary language is
+Fact: The capital of the country where Swedish is the primary language is
+Fact: The capital of the country where the Thames River reaches the sea is
+Fact: The animal that produces the yellow dairy spread used on bread is the
+Fact: The insect that produces the sweet golden substance spread on toast is the
+Fact: The kind of plant that the small round fruit used to make wine grows on is a
+Fact: In humans, the number of organs that filter blood to make urine is 
+Fact: In humans, the organ that pumps blood through the body has this many chambers: 
+Fact: The color of the gemstone that is the traditional birthstone for July is
+Fact: The animal that produces the round gem traditionally worn as a necklace by brides is the
+Fact: The ocean east of the country that built the Great Wall is the 
+Fact: The month of the holiday celebrated with a decorated evergreen tree and gift-giving is
+Fact: The part of the body a player buzzes to play the valved brass instrument heard in jazz solos is the
+Fact: The pair of wooden objects used to strike the instrument that keeps the beat at the back of a rock band is called
+Fact: The color of the planet fourth from the Sun is 
+Fact: The third month of the year is named after the Roman god of 
+Fact: The strong liquid inside the organ that breaks down swallowed food is called
+Fact: The number of the bean-shaped organs that filter blood into urine in a human body is
+Fact: The bony structure that encases the organ responsible for thinking and memory is the
+Fact: The part of the body that contains the organ that pumps blood is the
+Fact: The mascot of the college football rival of Ohio State is a 
+Fact: The continent where the country that invented paper is located is 
+Fact: The war that the president who delivered the Gettysburg Address led his country through was the
+Fact: The country whose army was led by the emperor defeated at Waterloo is
+Fact: The country where the playwright who wrote Hamlet and Macbeth was born is
+Fact: The first name of the naturalist who proposed evolution by natural selection was
+Fact: The first name of the physicist who developed the theory of general relativity was
+Fact: The first name of the child-prodigy composer from Salzburg who wrote The Magic Flute was
+Fact: The first name of the scientist on whose head an apple is said to have fallen was
+Fact: The first name of the playwright who wrote Romeo and Juliet was
+Fact: The number of natural moons orbiting the planet third from the Sun is 
+Fact: The most famous feature of the sixth planet from the Sun is its
+Fact: The large mammal whose name rhymes with 'chair' appears on the state flag of 
+Fact: The European country whose name rhymes with 'rain' shares its western border with 
+Fact: The celestial body whose name rhymes with 'spoon' orbits the planet called 
+Fact: The season that comes immediately after the coldest season of the year is
+Fact: The US state where the Space Needle is located shares its northern border with 
+Fact: The number of legs on the animal that spins webs is 
+Fact: The piece of equipment used to strike the ball in the sport played at Wimbledon is a
+Fact: The capital city of the most populous country in the world is 
+Fact: The smallest country in the world is located on the continent of 
+Fact: The small hard nut produced by the large tree that squirrels famously bury food from is the
+Fact: The source of power for the two-wheeled vehicle ridden in the Tour de France is the rider's
+Fact: The number of strings on the instrument that fiddlers play is 
+Fact: The ocean on the coast of the country where Carnival is most famously celebrated is the 
+Fact: The state west of the state with Topeka as its capital is 
+Fact: The chemical symbol for the element with atomic number 79 is 
+Fact: The chemical symbol for the element with atomic number 26 is 
+Fact: The chemical symbol for the element with atomic number 29 is 
+Fact: The flame color produced by burning the element with atomic number 29 is 
+Fact: Take the number whose name rhymes with the word door. Doubling it gives the number 
+Count the legs on a spider. The planet at that position from the Sun is Neptune. Count the primary colors of light. The planet at that position from the Sun is 
+Count the legs on a spider. The planet at that position from the Sun is Neptune. Count the Olympic rings. The planet at that position from the Sun is 
+Count the legs on a spider. The planet at that position from the Sun is Neptune. Count the strings on a standard guitar. The planet at that position from the Sun is 
+Count the legs on a spider. The planet at that position from the Sun is Neptune. Count the cardinal directions on a compass. The planet at that position from the Sun is 
+Count the legs on a spider. The planet at that position from the Sun is Neptune. Count the players on a volleyball court per team. The planet at that position from the Sun is 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the letters in the English alphabet. The element at that position on the periodic table is 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the days in a fortnight. The element at that position on the periodic table is 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the faces on a cube. The element at that position on the periodic table is 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the colors in a rainbow. The element at that position on the periodic table is 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the legs on a spider. The element at that position on the periodic table is 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the legs on an insect. The element at that position on the periodic table is 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the days in a week. The element at that position on the periodic table is 
+Fact: The capital city of the largest country by area is 
+Fact: The country that is the largest island nation by area has its capital at 
+Fact: The US Independence Day holiday is celebrated in month number 
+Fact: Christmas Day is celebrated in month number 
+Fact: Halloween is celebrated in month number 
+Fact: Valentine's Day is celebrated in month number 
+Fact: The first month of the year is named after the Roman god of 
+Fact: The month named after the two-faced Roman god of doorways is month number 
+Fact: The seventh month of the year is named after the Roman leader Julius 
+Fact: The month named after Julius Caesar is month number 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the players on a soccer team on the field. The element at that position on the periodic table is 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the pieces each player starts with in chess. The element at that position on the periodic table is 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the cards in one suit of a standard deck. The element at that position on the periodic table is 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the hours marked on a standard clock face. The element at that position on the periodic table is 
+Count the items in a dozen. The element at that position on the periodic table is magnesium. Count the cards in a standard deck without jokers. The element at that position on the periodic table is 
+Fact: The cardinal direction opposite to the one where the sun rises is 
+Fact: The direction opposite to the one a helium balloon floats toward is "
+Fact: The direction opposite to the one tree roots grow is "
+Fact: The cardinal direction opposite to where Antarctica lies from the equator is 
+Fact: The square of the number whose name rhymes with tree is 
+Fact: One more than the number whose name rhymes with hive is 
+Fact: Half of the number whose name rhymes with fix is 
+Fact: Double the number whose name rhymes with shoe is 
+Fact: The continent where the country that built the Taj Mahal is located is 
+Fact: The primary language spoken in the country where the Louvre museum is located is 
+Fact: The first letter of the month containing Halloween is "
+Fact: The first letter of the month containing Valentine's Day is "
+Fact: The first letter of the name of the world's most populous country is 
+Fact: The first letter of the name of the country whose capital is Paris is 
+Fact: The first letter of the name of the country that built the Great Wall is 
+Fact: The month immediately after the one containing Halloween is 
+Fact: The month immediately before the one containing Valentine's Day is "
+Fact: The opposite of the time of day when stars are visible is "
+Fact: The opposite of the time of day when plants photosynthesize is "
+Fact: Written as a Roman numeral, the number of Olympic rings is 
+Fact: Written as a Roman numeral, the number of US states is 
+Fact: Half the number of hours shown on a standard clock face is 
+Fact: Double the number of faces on a standard die is 
+Fact: The position in the alphabet of the chemical symbol for hydrogen is 
+Fact: The position in the alphabet of the chemical symbol for oxygen is 
+Fact: The position in the alphabet of the chemical symbol for carbon is 
+Fact: The position in the alphabet of the chemical symbol for nitrogen is 
+Fact: The antonym of what an armistice ends is "
+Fact: The antonym of what an obituary announces is "
+Fact: The antonym of how you would describe an airplane's cruising altitude is "

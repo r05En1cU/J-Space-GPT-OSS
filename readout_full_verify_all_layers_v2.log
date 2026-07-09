@@ -1,0 +1,136 @@
+[mxfp4] 以反量化模式加载（dequantize=True, mode=auto）
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/411 [00:00<?, ?it/s]Loading weights:   0%|          | 1/411 [00:00<01:51,  3.69it/s]Loading weights:   0%|          | 2/411 [00:00<02:12,  3.08it/s]Loading weights:   1%|          | 5/411 [00:01<01:20,  5.03it/s]Loading weights:   2%|▏         | 7/411 [00:01<01:22,  4.87it/s]Loading weights:   5%|▌         | 22/411 [00:01<00:25, 15.54it/s]Loading weights:   6%|▌         | 24/411 [00:02<00:31, 12.41it/s]Loading weights:   9%|▉         | 39/411 [00:02<00:19, 18.68it/s]Loading weights:  10%|▉         | 41/411 [00:03<00:26, 14.17it/s]Loading weights:  14%|█▎        | 56/411 [00:03<00:14, 25.11it/s]Loading weights:  15%|█▍        | 60/411 [00:03<00:15, 22.18it/s]Loading weights:  18%|█▊        | 73/411 [00:04<00:13, 25.50it/s]Loading weights:  19%|█▊        | 77/411 [00:04<00:13, 24.42it/s]Loading weights:  22%|██▏       | 90/411 [00:04<00:09, 33.40it/s]Loading weights:  34%|███▍      | 141/411 [00:04<00:02, 97.77it/s]Loading weights:  47%|████▋     | 192/411 [00:04<00:01, 163.03it/s]Loading weights:  59%|█████▉    | 243/411 [00:04<00:00, 225.99it/s]Loading weights:  72%|███████▏  | 294/411 [00:05<00:00, 282.76it/s]Loading weights:  84%|████████▍ | 345/411 [00:05<00:00, 327.54it/s]Loading weights:  96%|█████████▋| 396/411 [00:05<00:00, 367.78it/s]Loading weights: 100%|██████████| 411/411 [00:05<00:00, 78.58it/s] 
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=0 prompt=1/16 pairs=1 jvp_count=1
+readout-full layer=0 prompt=2/16 pairs=1 jvp_count=2
+readout-full layer=0 prompt=3/16 pairs=1 jvp_count=3
+readout-full layer=0 prompt=4/16 pairs=1 jvp_count=4
+readout-full layer=0 prompt=5/16 pairs=1 jvp_count=5
+readout-full layer=0 prompt=6/16 pairs=1 jvp_count=6
+readout-full layer=0 prompt=7/16 pairs=1 jvp_count=7
+readout-full layer=0 prompt=8/16 pairs=1 jvp_count=8
+readout-full layer=0 prompt=9/16 pairs=1 jvp_count=9
+readout-full layer=0 prompt=10/16 pairs=1 jvp_count=10
+readout-full layer=0 prompt=11/16 pairs=1 jvp_count=11
+readout-full layer=0 prompt=12/16 pairs=1 jvp_count=12
+readout-full layer=0 prompt=13/16 pairs=1 jvp_count=13
+readout-full layer=0 prompt=14/16 pairs=1 jvp_count=14
+readout-full layer=0 prompt=15/16 pairs=1 jvp_count=15
+readout-full layer=0 prompt=16/16 pairs=1 jvp_count=16
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[verify] layer=0 max_rel=0.00856603/0.125 Spearman=0.999743879 top10_set=True same_order=True sub_ulp_swaps=0 large_swaps=0 pass=True
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=4 prompt=1/16 pairs=1 jvp_count=1
+readout-full layer=4 prompt=2/16 pairs=1 jvp_count=2
+readout-full layer=4 prompt=3/16 pairs=1 jvp_count=3
+readout-full layer=4 prompt=4/16 pairs=1 jvp_count=4
+readout-full layer=4 prompt=5/16 pairs=1 jvp_count=5
+readout-full layer=4 prompt=6/16 pairs=1 jvp_count=6
+readout-full layer=4 prompt=7/16 pairs=1 jvp_count=7
+readout-full layer=4 prompt=8/16 pairs=1 jvp_count=8
+readout-full layer=4 prompt=9/16 pairs=1 jvp_count=9
+readout-full layer=4 prompt=10/16 pairs=1 jvp_count=10
+readout-full layer=4 prompt=11/16 pairs=1 jvp_count=11
+readout-full layer=4 prompt=12/16 pairs=1 jvp_count=12
+readout-full layer=4 prompt=13/16 pairs=1 jvp_count=13
+readout-full layer=4 prompt=14/16 pairs=1 jvp_count=14
+readout-full layer=4 prompt=15/16 pairs=1 jvp_count=15
+readout-full layer=4 prompt=16/16 pairs=1 jvp_count=16
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[verify] layer=4 max_rel=0.00859093/0.125 Spearman=0.999829233 top10_set=True same_order=True sub_ulp_swaps=0 large_swaps=0 pass=True
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=8 prompt=1/16 pairs=1 jvp_count=1
+readout-full layer=8 prompt=2/16 pairs=1 jvp_count=2
+readout-full layer=8 prompt=3/16 pairs=1 jvp_count=3
+readout-full layer=8 prompt=4/16 pairs=1 jvp_count=4
+readout-full layer=8 prompt=5/16 pairs=1 jvp_count=5
+readout-full layer=8 prompt=6/16 pairs=1 jvp_count=6
+readout-full layer=8 prompt=7/16 pairs=1 jvp_count=7
+readout-full layer=8 prompt=8/16 pairs=1 jvp_count=8
+readout-full layer=8 prompt=9/16 pairs=1 jvp_count=9
+readout-full layer=8 prompt=10/16 pairs=1 jvp_count=10
+readout-full layer=8 prompt=11/16 pairs=1 jvp_count=11
+readout-full layer=8 prompt=12/16 pairs=1 jvp_count=12
+readout-full layer=8 prompt=13/16 pairs=1 jvp_count=13
+readout-full layer=8 prompt=14/16 pairs=1 jvp_count=14
+readout-full layer=8 prompt=15/16 pairs=1 jvp_count=15
+readout-full layer=8 prompt=16/16 pairs=1 jvp_count=16
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[verify] layer=8 max_rel=0.00684831/0.125 Spearman=0.999914646 top10_set=True same_order=True sub_ulp_swaps=0 large_swaps=0 pass=True
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=12 prompt=1/16 pairs=1 jvp_count=1
+readout-full layer=12 prompt=2/16 pairs=1 jvp_count=2
+readout-full layer=12 prompt=3/16 pairs=1 jvp_count=3
+readout-full layer=12 prompt=4/16 pairs=1 jvp_count=4
+readout-full layer=12 prompt=5/16 pairs=1 jvp_count=5
+readout-full layer=12 prompt=6/16 pairs=1 jvp_count=6
+readout-full layer=12 prompt=7/16 pairs=1 jvp_count=7
+readout-full layer=12 prompt=8/16 pairs=1 jvp_count=8
+readout-full layer=12 prompt=9/16 pairs=1 jvp_count=9
+readout-full layer=12 prompt=10/16 pairs=1 jvp_count=10
+readout-full layer=12 prompt=11/16 pairs=1 jvp_count=11
+readout-full layer=12 prompt=12/16 pairs=1 jvp_count=12
+readout-full layer=12 prompt=13/16 pairs=1 jvp_count=13
+readout-full layer=12 prompt=14/16 pairs=1 jvp_count=14
+readout-full layer=12 prompt=15/16 pairs=1 jvp_count=15
+readout-full layer=12 prompt=16/16 pairs=1 jvp_count=16
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[verify] layer=12 max_rel=0.00773248/0.125 Spearman=1.000000000 top10_set=True same_order=True sub_ulp_swaps=0 large_swaps=0 pass=True
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/16 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/16 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/16 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/16 pairs=1 jvp_count=4
+readout-full layer=16 prompt=5/16 pairs=1 jvp_count=5
+readout-full layer=16 prompt=6/16 pairs=1 jvp_count=6
+readout-full layer=16 prompt=7/16 pairs=1 jvp_count=7
+readout-full layer=16 prompt=8/16 pairs=1 jvp_count=8
+readout-full layer=16 prompt=9/16 pairs=1 jvp_count=9
+readout-full layer=16 prompt=10/16 pairs=1 jvp_count=10
+readout-full layer=16 prompt=11/16 pairs=1 jvp_count=11
+readout-full layer=16 prompt=12/16 pairs=1 jvp_count=12
+readout-full layer=16 prompt=13/16 pairs=1 jvp_count=13
+readout-full layer=16 prompt=14/16 pairs=1 jvp_count=14
+readout-full layer=16 prompt=15/16 pairs=1 jvp_count=15
+readout-full layer=16 prompt=16/16 pairs=1 jvp_count=16
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[verify] layer=16 max_rel=0.00774457/0.125 Spearman=0.999829233 top10_set=True same_order=False sub_ulp_swaps=1 large_swaps=0 pass=True
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=20 prompt=1/16 pairs=1 jvp_count=1
+readout-full layer=20 prompt=2/16 pairs=1 jvp_count=2
+readout-full layer=20 prompt=3/16 pairs=1 jvp_count=3
+readout-full layer=20 prompt=4/16 pairs=1 jvp_count=4
+readout-full layer=20 prompt=5/16 pairs=1 jvp_count=5
+readout-full layer=20 prompt=6/16 pairs=1 jvp_count=6
+readout-full layer=20 prompt=7/16 pairs=1 jvp_count=7
+readout-full layer=20 prompt=8/16 pairs=1 jvp_count=8
+readout-full layer=20 prompt=9/16 pairs=1 jvp_count=9
+readout-full layer=20 prompt=10/16 pairs=1 jvp_count=10
+readout-full layer=20 prompt=11/16 pairs=1 jvp_count=11
+readout-full layer=20 prompt=12/16 pairs=1 jvp_count=12
+readout-full layer=20 prompt=13/16 pairs=1 jvp_count=13
+readout-full layer=20 prompt=14/16 pairs=1 jvp_count=14
+readout-full layer=20 prompt=15/16 pairs=1 jvp_count=15
+readout-full layer=20 prompt=16/16 pairs=1 jvp_count=16
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[verify] layer=20 max_rel=0.00333216/0.125 Spearman=1.000000000 top10_set=True same_order=True sub_ulp_swaps=0 large_swaps=0 pass=True
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=23 prompt=1/16 pairs=1 jvp_count=1
+readout-full layer=23 prompt=2/16 pairs=1 jvp_count=2
+readout-full layer=23 prompt=3/16 pairs=1 jvp_count=3
+readout-full layer=23 prompt=4/16 pairs=1 jvp_count=4
+readout-full layer=23 prompt=5/16 pairs=1 jvp_count=5
+readout-full layer=23 prompt=6/16 pairs=1 jvp_count=6
+readout-full layer=23 prompt=7/16 pairs=1 jvp_count=7
+readout-full layer=23 prompt=8/16 pairs=1 jvp_count=8
+readout-full layer=23 prompt=9/16 pairs=1 jvp_count=9
+readout-full layer=23 prompt=10/16 pairs=1 jvp_count=10
+readout-full layer=23 prompt=11/16 pairs=1 jvp_count=11
+readout-full layer=23 prompt=12/16 pairs=1 jvp_count=12
+readout-full layer=23 prompt=13/16 pairs=1 jvp_count=13
+readout-full layer=23 prompt=14/16 pairs=1 jvp_count=14
+readout-full layer=23 prompt=15/16 pairs=1 jvp_count=15
+readout-full layer=23 prompt=16/16 pairs=1 jvp_count=16
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[verify] layer=23 max_rel=0.00124318/0.125 Spearman=1.000000000 top10_set=True same_order=True sub_ulp_swaps=0 large_swaps=0 pass=True

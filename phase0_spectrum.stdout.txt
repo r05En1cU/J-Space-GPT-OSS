@@ -1,0 +1,269 @@
+[mxfp4] 以反量化模式加载（dequantize=True, mode=auto）
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/411 [00:00<?, ?it/s]Loading weights:   0%|          | 1/411 [00:00<01:41,  4.05it/s]Loading weights:   0%|          | 2/411 [00:00<01:52,  3.64it/s]Loading weights:   1%|          | 5/411 [00:00<00:50,  7.98it/s]Loading weights:   2%|▏         | 7/411 [00:01<01:02,  6.46it/s]Loading weights:   5%|▌         | 22/411 [00:01<00:19, 20.31it/s]Loading weights:   6%|▌         | 24/411 [00:01<00:24, 16.05it/s]Loading weights:   9%|▉         | 39/411 [00:02<00:13, 28.04it/s]Loading weights:  10%|█         | 42/411 [00:02<00:15, 24.33it/s]Loading weights:  14%|█▎        | 56/411 [00:02<00:10, 35.48it/s]Loading weights:  15%|█▍        | 60/411 [00:02<00:11, 30.87it/s]Loading weights:  18%|█▊        | 73/411 [00:02<00:08, 38.47it/s]Loading weights:  19%|█▊        | 77/411 [00:03<00:10, 30.84it/s]Loading weights:  22%|██▏       | 90/411 [00:03<00:07, 40.58it/s]Loading weights:  34%|███▍      | 141/411 [00:03<00:02, 114.46it/s]Loading weights:  47%|████▋     | 192/411 [00:03<00:01, 185.92it/s]Loading weights:  59%|█████▉    | 243/411 [00:03<00:00, 250.10it/s]Loading weights:  72%|███████▏  | 294/411 [00:03<00:00, 306.12it/s]Loading weights:  84%|████████▍ | 345/411 [00:03<00:00, 351.87it/s]Loading weights:  96%|█████████▋| 396/411 [00:04<00:00, 387.83it/s]Loading weights: 100%|██████████| 411/411 [00:04<00:00, 102.19it/s]
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+[phase0] layer=4 JVP position=1/7 k=400
+[phase0] layer=4 JVP position=2/7 k=400
+[phase0] layer=4 JVP position=3/7 k=400
+[phase0] layer=4 JVP position=4/7 k=400
+[phase0] layer=4 JVP position=5/7 k=400
+[phase0] layer=4 JVP position=6/7 k=400
+[phase0] layer=4 JVP position=7/7 k=400
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+[phase0] layer=4 VJP position=1/7 k=1200
+[phase0] layer=4 VJP position=2/7 k=1200
+[phase0] layer=4 VJP position=3/7 k=1200
+[phase0] layer=4 VJP position=4/7 k=1200
+[phase0] layer=4 VJP position=5/7 k=1200
+[phase0] layer=4 VJP position=6/7 k=1200
+[phase0] layer=4 VJP position=7/7 k=1200
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+[phase0] layer=16 JVP position=1/7 k=400
+[phase0] layer=16 JVP position=2/7 k=400
+[phase0] layer=16 JVP position=3/7 k=400
+[phase0] layer=16 JVP position=4/7 k=400
+[phase0] layer=16 JVP position=5/7 k=400
+[phase0] layer=16 JVP position=6/7 k=400
+[phase0] layer=16 JVP position=7/7 k=400
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+[phase0] layer=16 VJP position=1/7 k=1200
+[phase0] layer=16 VJP position=2/7 k=1200
+[phase0] layer=16 VJP position=3/7 k=1200
+[phase0] layer=16 VJP position=4/7 k=1200
+[phase0] layer=16 VJP position=5/7 k=1200
+[phase0] layer=16 VJP position=6/7 k=1200
+[phase0] layer=16 VJP position=7/7 k=1200
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+{
+  "model_id": "./gpt-oss-20b",
+  "block_path": "model.layers",
+  "num_layers": 24,
+  "hidden_size": 2880,
+  "load_seconds": 36.63376673683524,
+  "cuda_device": "NVIDIA A100 80GB PCIe",
+  "spectrum": [
+    {
+      "layer": 4,
+      "prompt": "The legal contract states that the buyer",
+      "tokens": [
+        "The",
+        " legal",
+        " contract",
+        " states",
+        " that",
+        " the",
+        " buyer"
+      ],
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "averaging": "mean of same-position Jacobians over selected token positions in one calibration prompt",
+      "method": {
+        "type": "one-pass randomized SVD with Gaussian range finder",
+        "probes": 400,
+        "input_probe_basis": "QR-orthonormalized Gaussian",
+        "J_top_spectrum": "SVD(Q_out^T J) using JQ range and a second batched VJP pass",
+        "M_top_spectrum": "SVD(Q_vocab^T W_U diag(g) J) using M Q range and the same VJP pass",
+        "global_sigma_min": "not identifiable from a top-range sketch; random-subspace floor and J-I diagnostic bound reported"
+      },
+      "J": {
+        "sigma_max_est": 111.88894653320312,
+        "sigma_min_global": null,
+        "sigma_min_global_note": "Not identified by randomized range SVD; restricted-subspace minimum and identity-residual bound are reported separately.",
+        "sigma_k_est": 1.9234977960586548,
+        "top_singular_values": [
+          111.88894653320312,
+          74.49604797363281,
+          54.380985260009766,
+          51.69778060913086,
+          44.74320983886719,
+          40.2578239440918,
+          36.944583892822266,
+          35.46134948730469,
+          33.910274505615234,
+          32.27369689941406,
+          31.419334411621094,
+          29.139745712280273
+        ],
+        "frob_norm_est": 260.240692376788,
+        "rms_singular_est": 4.849298988884244,
+        "stable_rank_est": 5.409735627219575,
+        "effective_rank_threshold": 0.11188894653320312,
+        "effective_rank_trace_based_est": 5.40686103408061,
+        "restricted_subspace_sigma": {
+          "min": 0.8551938533782959,
+          "p10": 1.106203556060791,
+          "p25": 1.441880226135254,
+          "median": 2.1872730255126953,
+          "p75": 3.6978037357330322,
+          "p90": 6.197690010070801,
+          "max": 41.77022933959961
+        },
+        "restricted_rank_above_threshold": 400,
+        "restricted_dimension": 400,
+        "J_minus_I_sigma_max_est": 111.79032897949219,
+        "J_minus_I_frob_norm_est": 260.73161038940026,
+        "identity_relative_frob": 1.0018863998866923,
+        "sigma_min_identity_bound_est": 0.0,
+        "sigma_max_identity_bound_est": 112.79032897949219,
+        "identity_bound_note": "Uses randomized estimate of ||J-I||_2, so it is diagnostic rather than a certified bound."
+      },
+      "M": {
+        "sigma_max_est": 7464.63134765625,
+        "sigma_min_global": null,
+        "sigma_min_global_note": "Not identified by randomized range SVD; restricted-subspace minimum and identity-residual bound are reported separately.",
+        "sigma_k_est": 46.87222671508789,
+        "top_singular_values": [
+          7464.63134765625,
+          3082.63671875,
+          2274.4580078125,
+          1956.811767578125,
+          1747.29150390625,
+          1400.537841796875,
+          1255.1251220703125,
+          1222.9169921875,
+          1156.73583984375,
+          1074.798583984375,
+          950.7025756835938,
+          902.5836791992188
+        ],
+        "frob_norm_est": 10465.69527551801,
+        "rms_singular_est": 195.01671723213886,
+        "stable_rank_est": 1.965709978744508,
+        "effective_rank_threshold": 7.46463134765625,
+        "effective_rank_trace_based_est": 1.9628319415764495,
+        "restricted_subspace_sigma": {
+          "min": 19.894805908203125,
+          "p10": 26.10663414001465,
+          "p25": 34.43043899536133,
+          "median": 53.869319915771484,
+          "p75": 93.41844177246094,
+          "p90": 170.54359436035156,
+          "max": 2741.874267578125
+        },
+        "restricted_rank_above_threshold": 400,
+        "restricted_dimension": 400
+      },
+      "elapsed_seconds": 371.0001847073436
+    },
+    {
+      "layer": 16,
+      "prompt": "The legal contract states that the buyer",
+      "tokens": [
+        "The",
+        " legal",
+        " contract",
+        " states",
+        " that",
+        " the",
+        " buyer"
+      ],
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "averaging": "mean of same-position Jacobians over selected token positions in one calibration prompt",
+      "method": {
+        "type": "one-pass randomized SVD with Gaussian range finder",
+        "probes": 400,
+        "input_probe_basis": "QR-orthonormalized Gaussian",
+        "J_top_spectrum": "SVD(Q_out^T J) using JQ range and a second batched VJP pass",
+        "M_top_spectrum": "SVD(Q_vocab^T W_U diag(g) J) using M Q range and the same VJP pass",
+        "global_sigma_min": "not identifiable from a top-range sketch; random-subspace floor and J-I diagnostic bound reported"
+      },
+      "J": {
+        "sigma_max_est": 48.093902587890625,
+        "sigma_min_global": null,
+        "sigma_min_global_note": "Not identified by randomized range SVD; restricted-subspace minimum and identity-residual bound are reported separately.",
+        "sigma_k_est": 0.9108044505119324,
+        "top_singular_values": [
+          48.093902587890625,
+          39.72948455810547,
+          26.16706085205078,
+          24.22150421142578,
+          22.061904907226562,
+          18.212980270385742,
+          17.48390007019043,
+          17.17849349975586,
+          15.026246070861816,
+          14.16997241973877,
+          13.657450675964355,
+          12.792080879211426
+        ],
+        "frob_norm_est": 114.98456418145872,
+        "rms_singular_est": 2.1426108489410765,
+        "stable_rank_est": 5.716089868340674,
+        "effective_rank_threshold": 0.048093902587890626,
+        "effective_rank_trace_based_est": 5.713215581556256,
+        "restricted_subspace_sigma": {
+          "min": 0.6233050227165222,
+          "p10": 0.7146728038787842,
+          "p25": 0.8179659247398376,
+          "median": 1.0112102031707764,
+          "p75": 1.4108607769012451,
+          "p90": 2.5692195892333984,
+          "max": 17.374576568603516
+        },
+        "restricted_rank_above_threshold": 400,
+        "restricted_dimension": 400,
+        "J_minus_I_sigma_max_est": 48.109954833984375,
+        "J_minus_I_frob_norm_est": 109.40849531757692,
+        "identity_relative_frob": 0.9515059355699071,
+        "sigma_min_identity_bound_est": 0.0,
+        "sigma_max_identity_bound_est": 49.109954833984375,
+        "identity_bound_note": "Uses randomized estimate of ||J-I||_2, so it is diagnostic rather than a certified bound."
+      },
+      "M": {
+        "sigma_max_est": 4340.16455078125,
+        "sigma_min_global": null,
+        "sigma_min_global_note": "Not identified by randomized range SVD; restricted-subspace minimum and identity-residual bound are reported separately.",
+        "sigma_k_est": 22.03512954711914,
+        "top_singular_values": [
+          4340.16455078125,
+          1681.66162109375,
+          868.05615234375,
+          795.6468505859375,
+          672.5070190429688,
+          631.673583984375,
+          508.6237487792969,
+          463.1334533691406,
+          459.3458557128906,
+          405.0735778808594,
+          398.0294189453125,
+          383.680419921875
+        ],
+        "frob_norm_est": 5377.9175151725785,
+        "rms_singular_est": 100.21157617760535,
+        "stable_rank_est": 1.5353800130579547,
+        "effective_rank_threshold": 4.3401645507812505,
+        "effective_rank_trace_based_est": 1.5325015455595004,
+        "restricted_subspace_sigma": {
+          "min": 14.084390640258789,
+          "p10": 16.62167739868164,
+          "p25": 19.300376892089844,
+          "median": 24.82561492919922,
+          "p75": 37.37693405151367,
+          "p90": 69.38680267333984,
+          "max": 1608.647216796875
+        },
+        "restricted_rank_above_threshold": 400,
+        "restricted_dimension": 400
+      },
+      "elapsed_seconds": 114.38249585032463
+    }
+  ]
+}

@@ -1,0 +1,252 @@
+[mxfp4] 以反量化模式加载（dequantize=True, mode=auto）
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/411 [00:00<?, ?it/s]Loading weights:   0%|          | 1/411 [00:00<01:56,  3.51it/s]Loading weights:   0%|          | 2/411 [00:00<02:22,  2.88it/s]Loading weights:   1%|          | 5/411 [00:01<01:18,  5.16it/s]Loading weights:   2%|▏         | 7/411 [00:01<01:06,  6.10it/s]Loading weights:   5%|▌         | 22/411 [00:01<00:15, 25.04it/s]Loading weights:   6%|▋         | 26/411 [00:01<00:18, 20.53it/s]Loading weights:   9%|▉         | 39/411 [00:02<00:12, 30.05it/s]Loading weights:  10%|█         | 43/411 [00:02<00:16, 22.64it/s]Loading weights:  14%|█▎        | 56/411 [00:02<00:10, 34.78it/s]Loading weights:  15%|█▍        | 61/411 [00:02<00:13, 26.25it/s]Loading weights:  18%|█▊        | 73/411 [00:03<00:11, 28.72it/s]Loading weights:  19%|█▊        | 77/411 [00:03<00:12, 26.50it/s]Loading weights:  22%|██▏       | 90/411 [00:03<00:09, 35.08it/s]Loading weights:  34%|███▍      | 141/411 [00:03<00:02, 101.42it/s]Loading weights:  47%|████▋     | 192/411 [00:03<00:01, 168.45it/s]Loading weights:  59%|█████▉    | 243/411 [00:04<00:00, 232.07it/s]Loading weights:  72%|███████▏  | 294/411 [00:04<00:00, 288.81it/s]Loading weights:  84%|████████▍ | 345/411 [00:04<00:00, 336.84it/s]Loading weights:  96%|█████████▋| 396/411 [00:04<00:00, 375.71it/s]Loading weights: 100%|██████████| 411/411 [00:04<00:00, 94.36it/s] 
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+[phase0] mismatch layer=16 position=1/7
+[phase0] mismatch layer=16 position=2/7
+[phase0] mismatch layer=16 position=3/7
+[phase0] mismatch layer=16 position=4/7
+[phase0] mismatch layer=16 position=5/7
+[phase0] mismatch layer=16 position=6/7
+[phase0] mismatch layer=16 position=7/7
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+{
+  "model_id": "./gpt-oss-20b",
+  "block_path": "model.layers",
+  "num_layers": 24,
+  "hidden_size": 2880,
+  "load_seconds": 37.05261393636465,
+  "cuda_device": "NVIDIA A100 80GB PCIe",
+  "mismatch": {
+    "measurement": "average_J_vs_per_token_J",
+    "layer": 16,
+    "prompt": "The legal contract states that the buyer",
+    "input_tokens": [
+      "The",
+      " legal",
+      " contract",
+      " states",
+      " that",
+      " the",
+      " buyer"
+    ],
+    "positions": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "router_direction_definition": "normalize(gamma * (router_weight_i - router_weight_j)); gamma=post_attention_layernorm.weight",
+    "router_competitions": [
+      {
+        "position": 3,
+        "token_id": 9407,
+        "token_text": " states",
+        "expert_i": 27,
+        "expert_j": 4,
+        "top_gate": 0.298828125,
+        "second_gate": 0.291015625,
+        "gate_gap": 0.0078125,
+        "delta_raw_norm": 0.5492676496505737
+      },
+      {
+        "position": 1,
+        "token_id": 7749,
+        "token_text": " legal",
+        "expert_i": 4,
+        "expert_j": 5,
+        "top_gate": 0.310546875,
+        "second_gate": 0.251953125,
+        "gate_gap": 0.05859375,
+        "delta_raw_norm": 0.9533290266990662
+      },
+      {
+        "position": 6,
+        "token_id": 28061,
+        "token_text": " buyer",
+        "expert_i": 27,
+        "expert_j": 11,
+        "top_gate": 0.337890625,
+        "second_gate": 0.24609375,
+        "gate_gap": 0.091796875,
+        "delta_raw_norm": 1.0824451446533203
+      }
+    ],
+    "metrics": {
+      "num_positions": 7,
+      "directions": [
+        {
+          "mean_response_norm": 2.264448642730713,
+          "per_token_norm": {
+            "min": 2.0930416584014893,
+            "p10": 2.0931613445281982,
+            "p25": 2.6275320053100586,
+            "median": 3.6704750061035156,
+            "p75": 4.534301280975342,
+            "p90": 4.615309238433838,
+            "max": 4.646615028381348
+          },
+          "mean_per_token_norm": 3.533399820327759,
+          "mean_over_token_amplitude_ratio": 0.6408696320476583,
+          "projection_on_mean_sign_fraction": 1.0,
+          "projection_on_mean": [
+            2.1034328937530518,
+            2.691518783569336,
+            3.499199390411377,
+            1.8978554010391235,
+            1.0486112833023071,
+            1.2188587188720703,
+            3.391667366027832
+          ],
+          "pairwise_cosine_mean": 0.30481359362602234,
+          "pairwise_nonnegative_cosine_fraction": 1.0,
+          "label": "random_0",
+          "kind": "random"
+        },
+        {
+          "mean_response_norm": 2.3024749755859375,
+          "per_token_norm": {
+            "min": 2.1748247146606445,
+            "p10": 2.4919087886810303,
+            "p25": 3.050154685974121,
+            "median": 3.4404513835906982,
+            "p75": 4.106374740600586,
+            "p90": 4.380265712738037,
+            "max": 4.730731010437012
+          },
+          "mean_per_token_norm": 3.52272367477417,
+          "mean_over_token_amplitude_ratio": 0.6536064670850295,
+          "projection_on_mean_sign_fraction": 1.0,
+          "projection_on_mean": [
+            1.5191634893417358,
+            2.4363677501678467,
+            3.127248525619507,
+            2.4005186557769775,
+            1.9305851459503174,
+            1.518366813659668,
+            3.1850736141204834
+          ],
+          "pairwise_cosine_mean": 0.36344343423843384,
+          "pairwise_nonnegative_cosine_fraction": 0.9523809552192688,
+          "label": "random_1",
+          "kind": "random"
+        },
+        {
+          "mean_response_norm": 2.467988967895508,
+          "per_token_norm": {
+            "min": 2.3856918811798096,
+            "p10": 2.539921522140503,
+            "p25": 3.078281879425049,
+            "median": 3.853431463241577,
+            "p75": 3.9353995323181152,
+            "p90": 4.790595054626465,
+            "max": 6.053760051727295
+          },
+          "mean_per_token_norm": 3.7600350379943848,
+          "mean_over_token_amplitude_ratio": 0.6563739281567815,
+          "projection_on_mean_sign_fraction": 1.0,
+          "projection_on_mean": [
+            3.294046640396118,
+            2.625568151473999,
+            2.7078299522399902,
+            2.722337245941162,
+            1.814792275428772,
+            1.7068053483963013,
+            2.4045403003692627
+          ],
+          "pairwise_cosine_mean": 0.3680855631828308,
+          "pairwise_nonnegative_cosine_fraction": 1.0,
+          "label": "random_2",
+          "kind": "random"
+        },
+        {
+          "mean_response_norm": 12.501477241516113,
+          "per_token_norm": {
+            "min": 8.483723640441895,
+            "p10": 9.551080703735352,
+            "p25": 12.631954193115234,
+            "median": 18.487707138061523,
+            "p75": 20.114564895629883,
+            "p90": 24.827749252319336,
+            "max": 31.698049545288086
+          },
+          "mean_per_token_norm": 17.737503051757812,
+          "mean_over_token_amplitude_ratio": 0.7048047972162124,
+          "projection_on_mean_sign_fraction": 1.0,
+          "projection_on_mean": [
+            20.57373046875,
+            14.474000930786133,
+            14.625487327575684,
+            10.613016128540039,
+            6.648341178894043,
+            5.33624792098999,
+            15.239505767822266
+          ],
+          "pairwise_cosine_mean": 0.42512035369873047,
+          "pairwise_nonnegative_cosine_fraction": 1.0,
+          "label": "router_e27_vs_e4_pos3",
+          "kind": "router_boundary"
+        },
+        {
+          "mean_response_norm": 15.266973495483398,
+          "per_token_norm": {
+            "min": 10.717564582824707,
+            "p10": 12.803269386291504,
+            "p25": 16.103700637817383,
+            "median": 19.479299545288086,
+            "p75": 19.97568130493164,
+            "p90": 32.712581634521484,
+            "max": 51.089237213134766
+          },
+          "mean_per_token_norm": 21.92069435119629,
+          "mean_over_token_amplitude_ratio": 0.6964639555156348,
+          "projection_on_mean_sign_fraction": 1.0,
+          "projection_on_mean": [
+            38.73769760131836,
+            15.335901260375977,
+            12.38000202178955,
+            11.475876808166504,
+            9.603395462036133,
+            6.253976345062256,
+            13.08198070526123
+          ],
+          "pairwise_cosine_mean": 0.40250086784362793,
+          "pairwise_nonnegative_cosine_fraction": 1.0,
+          "label": "router_e4_vs_e5_pos1",
+          "kind": "router_boundary"
+        },
+        {
+          "mean_response_norm": 19.71909523010254,
+          "per_token_norm": {
+            "min": 16.21808433532715,
+            "p10": 16.344423294067383,
+            "p25": 19.49694061279297,
+            "median": 25.26394271850586,
+            "p75": 29.291404724121094,
+            "p90": 46.10118865966797,
+            "max": 69.26642608642578
+          },
+          "mean_per_token_norm": 29.7607364654541,
+          "mean_over_token_amplitude_ratio": 0.662587609449525,
+          "projection_on_mean_sign_fraction": 1.0,
+          "projection_on_mean": [
+            58.65401077270508,
+            15.502253532409668,
+            12.032634735107422,
+            15.175225257873535,
+            8.262846946716309,
+            9.2101469039917,
+            19.196529388427734
+          ],
+          "pairwise_cosine_mean": 0.29021376371383667,
+          "pairwise_nonnegative_cosine_fraction": 1.0,
+          "label": "router_e27_vs_e11_pos6",
+          "kind": "router_boundary"
+        }
+      ]
+    }
+  }
+}

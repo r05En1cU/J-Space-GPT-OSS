@@ -1,0 +1,10 @@
+python /ai/mount/stlsy/miniconda3/envs/gptoss/bin/python
+version 3.11.15 | packaged by conda-forge | (main, Jun 11 2026, 03:34:02) [GCC 14.3.0]
+PATTERN /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python*/site-packages/transformers/models/gpt_oss/modeling_gpt_oss.py
+FOUND /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/site-packages/transformers/models/gpt_oss/modeling_gpt_oss.py 30920
+FOUND /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.1/site-packages/transformers/models/gpt_oss/modeling_gpt_oss.py 30920
+PATTERN /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python*/site-packages/transformers/integrations/moe.py
+FOUND /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.11/site-packages/transformers/integrations/moe.py 27335
+FOUND /ai/mount/stlsy/miniconda3/envs/gptoss/lib/python3.1/site-packages/transformers/integrations/moe.py 27335
+PATTERN /ai/mount/stlsy/workspace/J-Space-GPT-OSS/_paper_fetch/**/modeling_gpt_oss.py
+PATTERN /ai/mount/stlsy/workspace/J-Space-GPT-OSS/_paper_fetch/**/moe.py

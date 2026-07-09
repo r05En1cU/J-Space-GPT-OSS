@@ -1,0 +1,242 @@
+[mxfp4] 以反量化模式加载（dequantize=True, mode=auto）
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/411 [00:00<?, ?it/s]Loading weights:   0%|          | 1/411 [00:00<01:55,  3.56it/s]Loading weights:   0%|          | 2/411 [00:00<02:25,  2.80it/s]Loading weights:   1%|          | 5/411 [00:00<01:07,  6.02it/s]Loading weights:   2%|▏         | 7/411 [00:01<01:08,  5.90it/s]Loading weights:   5%|▌         | 22/411 [00:01<00:18, 20.88it/s]Loading weights:   6%|▌         | 25/411 [00:02<00:27, 13.83it/s]Loading weights:   9%|▉         | 39/411 [00:02<00:17, 20.94it/s]Loading weights:  10%|█         | 42/411 [00:02<00:21, 17.12it/s]Loading weights:  14%|█▎        | 56/411 [00:03<00:14, 24.69it/s]Loading weights:  14%|█▍        | 59/411 [00:03<00:16, 21.40it/s]Loading weights:  18%|█▊        | 73/411 [00:03<00:09, 34.07it/s]Loading weights:  19%|█▉        | 78/411 [00:03<00:10, 30.28it/s]Loading weights:  22%|██▏       | 90/411 [00:04<00:08, 40.02it/s]Loading weights:  23%|██▎       | 96/411 [00:04<00:10, 30.95it/s]Loading weights:  26%|██▌       | 107/411 [00:04<00:07, 40.03it/s]Loading weights:  39%|███▉      | 160/411 [00:04<00:02, 116.77it/s]Loading weights:  51%|█████▏    | 211/411 [00:04<00:01, 187.27it/s]Loading weights:  64%|██████▎   | 262/411 [00:04<00:00, 251.55it/s]Loading weights:  76%|███████▌  | 313/411 [00:04<00:00, 307.05it/s]Loading weights:  89%|████████▊ | 364/411 [00:05<00:00, 352.18it/s]Loading weights: 100%|██████████| 411/411 [00:05<00:00, 80.86it/s] 
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/16 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/16 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/16 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/16 pairs=1 jvp_count=4
+readout-full layer=16 prompt=5/16 pairs=1 jvp_count=5
+readout-full layer=16 prompt=6/16 pairs=1 jvp_count=6
+readout-full layer=16 prompt=7/16 pairs=1 jvp_count=7
+readout-full layer=16 prompt=8/16 pairs=1 jvp_count=8
+readout-full layer=16 prompt=9/16 pairs=1 jvp_count=9
+readout-full layer=16 prompt=10/16 pairs=1 jvp_count=10
+readout-full layer=16 prompt=11/16 pairs=1 jvp_count=11
+readout-full layer=16 prompt=12/16 pairs=1 jvp_count=12
+readout-full layer=16 prompt=13/16 pairs=1 jvp_count=13
+readout-full layer=16 prompt=14/16 pairs=1 jvp_count=14
+readout-full layer=16 prompt=15/16 pairs=1 jvp_count=15
+readout-full layer=16 prompt=16/16 pairs=1 jvp_count=16
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+[j-lens] patched transformers MoE grouped_mm fallback for double-backward JVP
+readout-full layer=16 prompt=1/16 pairs=1 jvp_count=1
+readout-full layer=16 prompt=2/16 pairs=1 jvp_count=2
+readout-full layer=16 prompt=3/16 pairs=1 jvp_count=3
+readout-full layer=16 prompt=4/16 pairs=1 jvp_count=4
+readout-full layer=16 prompt=5/16 pairs=1 jvp_count=5
+readout-full layer=16 prompt=6/16 pairs=1 jvp_count=6
+readout-full layer=16 prompt=7/16 pairs=1 jvp_count=7
+readout-full layer=16 prompt=8/16 pairs=1 jvp_count=8
+readout-full layer=16 prompt=9/16 pairs=1 jvp_count=9
+readout-full layer=16 prompt=10/16 pairs=1 jvp_count=10
+readout-full layer=16 prompt=11/16 pairs=1 jvp_count=11
+readout-full layer=16 prompt=12/16 pairs=1 jvp_count=12
+readout-full layer=16 prompt=13/16 pairs=1 jvp_count=13
+readout-full layer=16 prompt=14/16 pairs=1 jvp_count=14
+readout-full layer=16 prompt=15/16 pairs=1 jvp_count=15
+readout-full layer=16 prompt=16/16 pairs=1 jvp_count=16
+[j-lens] restored transformers MoE grouped_mm fallback after readout-full JVP
+{
+  "step": 1,
+  "prompt": "A spider builds a",
+  "layer": 16,
+  "model_id": "/ai/mount/stlsy/workspace/J-Space-GPT-OSS/gpt-oss-20b",
+  "block_path": "model.layers",
+  "calibration": {
+    "prompts_file": "/ai/mount/stlsy/workspace/J-Space-GPT-OSS/calibration_prompts.txt",
+    "num_prompts": 16,
+    "position_mode": "last",
+    "max_pairs": 1,
+    "max_length": 128
+  },
+  "jvp_samples": {
+    "bf16": 16,
+    "fp32": 16
+  },
+  "noise_floor_full_vocab": {
+    "max_abs": 0.0,
+    "mean_abs": 0.0,
+    "rms_abs": 0.0,
+    "relative_to_fp32_rms_max": 0.0,
+    "relative_to_fp32_rms_mean": 0.0,
+    "fp32_score_rms": 994.6033930683159
+  },
+  "noise_floor_dictionary_candidates": {
+    "max_abs": 0.0,
+    "mean_abs": 0.0,
+    "rms_abs": 0.0,
+    "relative_to_fp32_rms_max": 0.0,
+    "relative_to_fp32_rms_mean": 0.0,
+    "fp32_score_rms": 675.431046038267
+  },
+  "verify_vs_dictionary": {
+    "bf16": {
+      "spearman": 0.9998292326927185,
+      "top10_set_equal": true,
+      "top10_same_order": false,
+      "top10_intersection_size": 10,
+      "top10": [
+        {
+          "token_id": 12884,
+          "text": " signal"
+        },
+        {
+          "token_id": 69476,
+          "text": " spider"
+        },
+        {
+          "token_id": 61353,
+          "text": " orbit"
+        },
+        {
+          "token_id": 6804,
+          "text": " plant"
+        },
+        {
+          "token_id": 20485,
+          "text": " wave"
+        },
+        {
+          "token_id": 33877,
+          "text": " insect"
+        },
+        {
+          "token_id": 13983,
+          "text": " animal"
+        },
+        {
+          "token_id": 19545,
+          "text": " proof"
+        },
+        {
+          "token_id": 6698,
+          "text": " contract"
+        },
+        {
+          "token_id": 12527,
+          "text": " experiment"
+        }
+      ]
+    },
+    "fp32": {
+      "spearman": 0.9998292326927185,
+      "top10_set_equal": true,
+      "top10_same_order": false,
+      "top10_intersection_size": 10,
+      "top10": [
+        {
+          "token_id": 12884,
+          "text": " signal"
+        },
+        {
+          "token_id": 69476,
+          "text": " spider"
+        },
+        {
+          "token_id": 61353,
+          "text": " orbit"
+        },
+        {
+          "token_id": 6804,
+          "text": " plant"
+        },
+        {
+          "token_id": 20485,
+          "text": " wave"
+        },
+        {
+          "token_id": 33877,
+          "text": " insect"
+        },
+        {
+          "token_id": 13983,
+          "text": " animal"
+        },
+        {
+          "token_id": 19545,
+          "text": " proof"
+        },
+        {
+          "token_id": 6698,
+          "text": " contract"
+        },
+        {
+          "token_id": 12527,
+          "text": " experiment"
+        }
+      ]
+    },
+    "dictionary_top10": [
+      {
+        "token_id": 12884,
+        "text": " signal"
+      },
+      {
+        "token_id": 69476,
+        "text": " spider"
+      },
+      {
+        "token_id": 6804,
+        "text": " plant"
+      },
+      {
+        "token_id": 61353,
+        "text": " orbit"
+      },
+      {
+        "token_id": 20485,
+        "text": " wave"
+      },
+      {
+        "token_id": 33877,
+        "text": " insect"
+      },
+      {
+        "token_id": 13983,
+        "text": " animal"
+      },
+      {
+        "token_id": 19545,
+        "text": " proof"
+      },
+      {
+        "token_id": 6698,
+        "text": " contract"
+      },
+      {
+        "token_id": 12527,
+        "text": " experiment"
+      }
+    ]
+  },
+  "tracked_tokens": [
+    {
+      "token": " orbit",
+      "token_id": 61353,
+      "bf16_score": 1205.37060546875,
+      "fp32_score": 1205.37060546875,
+      "abs_fp32_minus_bf16": 0.0,
+      "bf16_full_vocab_rank": 114,
+      "fp32_full_vocab_rank": 114,
+      "dictionary_score": 1201.0462646484375,
+      "dictionary_candidate_rank": 4
+    },
+    {
+      "token": " plant",
+      "token_id": 6804,
+      "bf16_score": 1202.9786376953125,
+      "fp32_score": 1202.9786376953125,
+      "abs_fp32_minus_bf16": 0.0,
+      "bf16_full_vocab_rank": 117,
+      "fp32_full_vocab_rank": 117,
+      "dictionary_score": 1202.598876953125,
+      "dictionary_candidate_rank": 3
+    }
+  ],
+  "orbit_plant_gap": {
+    "bf16_orbit_minus_plant": 2.3919677734375,
+    "fp32_orbit_minus_plant": 2.3919677734375,
+    "dictionary_orbit_minus_plant": -1.5526123046875
+  }
+}
